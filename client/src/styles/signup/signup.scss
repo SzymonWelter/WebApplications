@@ -1,0 +1,89 @@
+$form-min-width: 300px;
+
+.sign-up-section{
+    flex-grow: 1;
+}
+
+.sign-up-wrapper{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: rgba(238, 238, 238, 0.589);
+    border-radius: 1em;
+    padding: 10px;
+    min-width: $form-min-width;
+    max-width: 1000px;
+    width: 50%;
+    box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation: fall 1s ease;
+}
+
+.sign-up-form{
+
+    &__header{
+        font-size: 50px;
+        color: darkgrey;
+        display: block;
+        text-align: center;
+    }
+
+    &__input-wrapper{
+        padding: 10px;
+        min-width: calc($form-min-width -50px);
+        width: 60%;
+        margin: auto;
+        &--flex{
+            display: flex;
+        }
+    }
+
+    &__input{
+        
+        outline: none;
+        &--text{
+            width: 100%;
+            text-align: center;
+            border-radius: 20px;
+            padding: 5px;
+            font-size: 15px;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+        &--text:focus {
+            
+            border-color: rgb(77, 204, 77);
+            box-shadow: 0 10px 20px 0 rgba(77, 204, 77,0.2),0 10px 20px 0 rgba(77, 204, 77,0.19);
+            transition: box-shadow 0.3s ease;
+        }
+        &--submit{
+            margin-left: auto;
+            width: 100px;
+            height: 30px;
+            border: none;
+            border-radius: 1rem;
+            background-color: rgba(0, 128, 0, 0.8);
+            color: white;
+            cursor: pointer;
+            outline: none;
+        }
+        &--submit:hover{
+            background-color: green;
+        }
+        &--checkbox{
+            padding: 0;
+            margin:5px;
+            vertical-align: middle;
+            border-radius: 50%;
+        }
+    }
+    &__checkbox-group{
+        color: grey;
+    }
+}
+
+@keyframes fall{
+    from{top: 30%}
+    to{top: 50%}
+}

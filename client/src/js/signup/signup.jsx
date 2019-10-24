@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {CheckboxInput, SubmitInput, TextInput} from '../';
+import {TextInput} from './';
 
 
 export class SignUp extends Component{
@@ -10,31 +10,16 @@ export class SignUp extends Component{
 
     render(){
         return(
-    <section className="log-in-section">
-        <div className="log-in-wrapper">
-          <form className="log-in-form">
-            <header className="log-in-form__header">Log in</header>
-            <div className="log-in-form__input-wrapper">
-              <input
-                type="text"
-                className="log-in-form__input log-in-form__input--text"
-                name="username"
-                placeholder="Username"
-              />
-            </div>
-            <div className="log-in-form__input-wrapper">
-              <input
-                type="password"
-                className="log-in-form__input log-in-form__input--text"
-                name="password"
-                placeholder="Password"
-              />
-            </div>
+    <section className="sign-up-section">
+        <div className="sign-up-wrapper">
+          <form className="sign-up-form">
+            <header className="sign-up-form__header">Sign up</header>
+            <TextInput type='username'/>
+            <TextInput type='password'/>
+            <TextInput type='confirm password'/>
             <div
-              className="log-in-form__input-wrapper log-in-form__input-wrapper--flex"
+              className="sign-up-form__input-wrapper sign-up-form__input-wrapper--flex"
             >
-              <CheckboxInput />
-              <SubmitInput />
             </div>
           </form>
         </div>

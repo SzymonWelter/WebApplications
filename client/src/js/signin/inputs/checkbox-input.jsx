@@ -8,13 +8,13 @@ export class CheckboxInput extends Component {
 
   render() {
     return (
-      <div className="log-in-form__checkbox-group">
+      <div className="sign-up-form__checkbox-group">
         <label htmlFor="remindMe">
           Remember me
           <input
             type="checkbox"
             id="remindMe"
-            className="log-in-form__input--checkbox"
+            className="sign-up-form__input--checkbox"
           />
         </label>
       </div>

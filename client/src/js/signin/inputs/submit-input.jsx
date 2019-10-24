@@ -10,7 +10,7 @@ export class SubmitInput extends Component {
     return (
       <input
         type="submit"
-        class="log-in-form__input log-in-form__input--submit"
+        class="sign-up-form__input sign-up-form__input--submit"
         value="Log in"
       />
     );
