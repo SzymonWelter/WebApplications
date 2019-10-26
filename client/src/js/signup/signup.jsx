@@ -14,13 +14,16 @@ export class SignUp extends Component{
         <div className="sign-up-wrapper">
           <form className="sign-up-form">
             <header className="sign-up-form__header">Sign up</header>
-            <TextInput type='username'/>
-            <TextInput type='password'/>
-            <TextInput type='confirm password'/>
-            <div
-              className="sign-up-form__input-wrapper sign-up-form__input-wrapper--flex"
-            >
+            <div className="row">
+
             </div>
+            <TextInput type='username' />
+            <TextInput type='first name'/>
+            <TextInput type='last name'/>
+            <TextInput type='email' />
+            <TextInput type='pesel' />
+            <TextInput type='password' />
+            <TextInput type='confirm password'/>
           </form>
         </div>
       </section>
