@@ -12,6 +12,7 @@
   "author": "SzymonWelter",
   "license": "ISC",
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
     "bootstrap": "^4.3.1",
     "css-loader": "^3.2.0",
     "fibers": "^4.0.2",
