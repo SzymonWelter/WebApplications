@@ -37,6 +37,7 @@ export class ButtonInput extends Component {
           }
           name={this.state.model.name}
           value={this.state.model.name.toUpperCase()}
+          onClick={this.props.onClickHandler}
         />
       </div>
     );
