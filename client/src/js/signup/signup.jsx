@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { InputModel, RadioInput, TextInput, DateInput, FileInput, ButtonInput } from "./";
+import {
+  InputModel,
+  RadioInput,
+  TextInput,
+  DateInput,
+  FileInput,
+  ButtonInput
+} from "./";
 
 export class SignUp extends Component {
   constructor() {
@@ -46,34 +53,97 @@ export class SignUp extends Component {
 
   getInputs() {
     this.inputGroup = [
-      new InputModel("firstName", "text", "first name", this.activityInputHandler, this.onChange),
-      new InputModel("lastName", "text", "last name", this.activityInputHandler, this.onChange),
-      new InputModel("login", "text", "login", this.activityInputHandler, this.onChange),
-      new InputModel("password", "password", "password", this.activityInputHandler, this.onChange),
-      new InputModel("confirmPassword", "password", "confirm password", this.activityInputHandler, this.onChange),
-      new InputModel("birthday", "date", "birthday", this.activityInputHandler, this.onChange),
-      new InputModel("pesel", "text", "pesel", this.activityInputHandler, this.onChange),
-      new InputModel("sex", "radio", "sex", this.activityInputHandler, this.onChange),
-      new InputModel("photo", "file", "photo", this.activityInputHandler, this.onChangePhoto),
+      new InputModel(
+        "firstName",
+        "text",
+        "first name",
+        this.activityInputHandler,
+        this.onChange
+      ),
+      new InputModel(
+        "lastName",
+        "text",
+        "last name",
+        this.activityInputHandler,
+        this.onChange
+      ),
+      new InputModel(
+        "login",
+        "text",
+        "login",
+        this.activityInputHandler,
+        this.onChange
+      ),
+      new InputModel(
+        "password",
+        "password",
+        "password",
+        this.activityInputHandler,
+        this.onChange
+      ),
+      new InputModel(
+        "confirmPassword",
+        "password",
+        "confirm password",
+        this.activityInputHandler,
+        this.onChange
+      ),
+      new InputModel(
+        "birthday",
+        "date",
+        "birthday",
+        this.activityInputHandler,
+        this.onChange
+      ),
+      new InputModel(
+        "pesel",
+        "text",
+        "pesel",
+        this.activityInputHandler,
+        this.onChange
+      ),
+      new InputModel(
+        "sex",
+        "radio",
+        "sex",
+        this.activityInputHandler,
+        this.onChange
+      ),
+      new InputModel(
+        "photo",
+        "file",
+        "photo",
+        this.activityInputHandler,
+        this.onChangePhoto
+      ),
       new InputModel("clear", "button"),
       new InputModel("signup", "submit")
     ];
   }
 
-  async onSubmit(e){
+  async onSubmit(e) {
     e.preventDefault();
-    var data = {}
-    for(var i of Array.from(e.target).filter(x => x.name != "confirmPassword").slice(0,7)){
+    var data = {};
+    for (var i of Array.from(e.target)
+      .filter(x => x.name != "confirmPassword")
+      .slice(0, 7)) {
       data[i.name] = i.value;
     }
     data.sex = e.target.sex.value;
     data.photo = e.target.photo.files[0];
-    const response = await fetch('http://example.com/movies.json');
-    const myJson = await response.json();
+    const response = await fetch("http://localhost:4000/user", {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const myJson = await response;
     console.log(myJson);
   }
 
-  clearForm(){
+  clearForm() {
     console.log("clear");
   }
 
@@ -102,10 +172,16 @@ export class SignUp extends Component {
                       input = <FileInput model={value} />;
                       break;
                     case "submit":
-                        input = <ButtonInput model={value} color="green"/>
-                        break;
+                      input = <ButtonInput model={value} color="green" />;
+                      break;
                     case "button":
-                      input = <ButtonInput model={value} color="red" onClickHandler={this.clearForm}/>
+                      input = (
+                        <ButtonInput
+                          model={value}
+                          color="red"
+                          onClickHandler={this.clearForm}
+                        />
+                      );
                       break;
                   }
                   return (

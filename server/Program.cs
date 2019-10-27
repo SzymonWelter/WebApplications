@@ -20,6 +20,9 @@ namespace server
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseKestrel( config => {
+                        config.ListenAnyIP(80);
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }
