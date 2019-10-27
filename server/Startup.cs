@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using server.Services.MapService;
+using server.Services.Repositories;
 
 namespace server
 {
@@ -26,6 +28,8 @@ namespace server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSingleton<IUsersRepository, UsersRepository>();
+            services.AddTransient<IMapService, MapService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
