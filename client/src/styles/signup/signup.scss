@@ -50,6 +50,14 @@ $form-min-width: 300px;
   &__input {
     outline: none;
 
+    &-label{
+      position: absolute;
+      bottom: -10px;
+      right: 10%;
+      font-size: 12px;
+      color: red;
+    }
+
     &--hidden {
       display: none;
     }
@@ -155,6 +163,12 @@ $form-min-width: 300px;
       cursor: pointer;
       outline: none;
       font-weight: 500;
+      
+      &-disabled{
+        border: 1px solid #999999;
+        background-color: #cccccc;
+        color: #666666;
+      }
       &-green {
         background-color: white;
         color: rgb(0, 128, 0);
@@ -188,6 +202,16 @@ $form-min-width: 300px;
   }
   &__checkbox-group {
     color: grey;
+  }
+}
+
+.modal{
+  display: inherit;
+  &--success{
+    
+  }
+  &--error{
+
   }
 }
 

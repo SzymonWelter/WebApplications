@@ -33,11 +33,13 @@ export class ButtonInput extends Component {
           type={this.state.model.type.toLowerCase()}
           className={
             "sign-up-form__input sign-up-form__input--button sign-up-form__input--button-" +
-            this.props.color
+            this.props.color +
+            (this.props.valid ? "" : " sign-up-form__input sign-up-form__input--button-disabled")
           }
           name={this.state.model.name}
           value={this.state.model.name.toUpperCase()}
           onClick={this.props.onClickHandler}
+          disabled={true}
         />
       </div>
     );

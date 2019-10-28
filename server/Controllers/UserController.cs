@@ -38,11 +38,11 @@ namespace server.Controllers
             return Ok();
         }
 
-        [HttpGet("username/exists")]
-        public async Task<ActionResult<bool>> Exists( string login )
+        [HttpGet("login/exists")]
+        public async Task<ActionResult> Exists( string login )
         {
             var result = await _usersRepository.ExistsLoginAsync(login);
-            return Ok(result);
+            return Ok(new { Exists = result});
         }
 
     }

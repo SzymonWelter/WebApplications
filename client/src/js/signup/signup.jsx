@@ -6,7 +6,8 @@ import {
   TextInput,
   DateInput,
   FileInput,
-  ButtonInput
+  ButtonInput,
+  Modal
 } from "./";
 
 export class SignUp extends Component {
@@ -14,11 +15,14 @@ export class SignUp extends Component {
     super();
 
     this.state = {
-      active: undefined
+      active: undefined,
+      logged: false,
+      valid: true
     };
     this.getInputs();
     this.onSubmit = this.onSubmit.bind(this);
     this.clearForm = this.clearForm.bind(this);
+    this.onChangeLogin = this.onChangeLogin.bind(this);
   }
 
   inputGroup = [];
@@ -43,6 +47,17 @@ export class SignUp extends Component {
     var index = this.inputGroup.findIndex(x => x.name == event.target.name);
     this.inputGroup[index].value = event.target.value;
   };
+
+  onChangeLogin = async (event) => {
+    this.onChange(event);
+    var response = await fetch(
+      "http://localhost:4000/user/login/exists?login=" + event.target.value
+    );
+    var result = await response.json();
+    this.setState({
+      valid: !result.exists
+    });
+  }
 
   onChangePhoto = event => {
     var index = this.inputGroup.findIndex(x => x.name == event.target.name);
@@ -72,7 +87,7 @@ export class SignUp extends Component {
         "text",
         "login",
         this.activityInputHandler,
-        this.onChange
+        this.onChangeLogin
       ),
       new InputModel(
         "password",
@@ -136,7 +151,10 @@ export class SignUp extends Component {
       method: "POST",
       body: data
     });
-    openDialog(response.ok);
+    this.setState({
+      logged: response.ok,
+      error: !response.ok
+    });
   }
 
   clearForm() {
@@ -147,6 +165,14 @@ export class SignUp extends Component {
     return "col col-12 ".concat(index === 2 ? "" : "col-md-6");
   };
 
+  renderModal() {
+    if (this.state.logged) {
+      return <Modal close={() => this.setState({ logged: false })} />;
+    } else if (this.state.error) {
+      return <Modal error />;
+    }
+  }
+
   render() {
     return (
       <section className="sign-up-section">
@@ -156,7 +182,12 @@ export class SignUp extends Component {
             <div className="container">
               <div className="row">
                 {this.inputGroup.map((value, index) => {
-                  let input = <TextInput model={value} />;
+                  let input =
+                    index == 2 ? (
+                      <TextInput model={value} valid={this.state.valid} />
+                    ) : (
+                      <TextInput model={value} />
+                    );
                   switch (value.type) {
                     case "date":
                       input = <DateInput model={value} />;
@@ -168,7 +199,7 @@ export class SignUp extends Component {
                       input = <FileInput model={value} />;
                       break;
                     case "submit":
-                      input = <ButtonInput model={value} color="green" />;
+                      input = <ButtonInput model={value} color="green" valid={this.state.valid}/>;
                       break;
                     case "button":
                       input = (
@@ -190,6 +221,7 @@ export class SignUp extends Component {
             </div>
           </form>
         </div>
+        {this.renderModal()}
       </section>
     );
   }
