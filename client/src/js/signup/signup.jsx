@@ -123,24 +123,20 @@ export class SignUp extends Component {
 
   async onSubmit(e) {
     e.preventDefault();
-    var data = {};
+    var data = new FormData();
     for (var i of Array.from(e.target)
       .filter(x => x.name != "confirmPassword")
       .slice(0, 7)) {
-      data[i.name] = i.value;
+      data.append(i.name, i.value);
     }
-    data.sex = e.target.sex.value;
-    data.photo = e.target.photo.files[0];
+    data.append("sex", "e.target.sex.value");
+    data.append("photo", e.target.photo.files[0]);
+
     const response = await fetch("http://localhost:4000/user", {
       method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
+      body: data
     });
-    const myJson = await response;
-    console.log(myJson);
+    openDialog(response.ok);
   }
 
   clearForm() {

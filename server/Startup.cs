@@ -30,6 +30,12 @@ namespace server
             services.AddControllers();
             services.AddSingleton<IUsersRepository, UsersRepository>();
             services.AddTransient<IMapService, MapService>();
+            services.AddCors(opt => opt.AddPolicy("Any", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,8 +47,7 @@ namespace server
             }
 
             app.UseRouting();
-
-            app.UseAuthorization();
+            app.UseCors("Any");
 
             app.UseEndpoints(endpoints =>
             {

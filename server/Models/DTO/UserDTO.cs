@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +16,6 @@ namespace server.Models.DTO
         public string Birthday { get; set; }
         public string Pesel { get; set; }
         public string Sex { get; set; }
-        public FileStream Photo { get; set; }
+        public IFormFile Photo { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace server
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseKestrel( config => {
-                        config.ListenAnyIP(80);
+                        config.ListenAnyIP(4000);
                     });
                     webBuilder.UseStartup<Startup>();
                 });

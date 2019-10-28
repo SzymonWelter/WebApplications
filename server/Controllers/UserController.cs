@@ -26,7 +26,7 @@ namespace server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SignUp([FromBody]UserDTO userDTO)
+        public async Task<ActionResult> SignUp([FromForm] UserDTO userDTO)
         {
             if (!ModelState.IsValid)
             {

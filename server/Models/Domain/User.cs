@@ -1,4 +1,5 @@
-﻿using server.Models.Enums;
+﻿using Microsoft.AspNetCore.Http;
+using server.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +17,7 @@ namespace server.Models.Domain
         public DateTime Birthday { get; set; }
         public string Pesel { get; set; }
         public Sex Sex { get; set; }
-        public FileStream Photo { get; set; }
+        public IFormFile Photo { get; set; }
 
     }
 }
