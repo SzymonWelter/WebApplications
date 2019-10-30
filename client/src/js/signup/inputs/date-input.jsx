@@ -40,19 +40,28 @@ export class DateInput extends Component {
     var suffix = this.state.model.value === "" && !this.state.model.isActive ? "sign-up-form__input--hidden-date" : "";
     return "sign-up-form__input sign-up-form__input--date " + suffix;
   }
+  ifError = () => {
+    if (!this.state.model.valid) {
+      return (
+        <label className="sign-up-form__input-label">
+          {this.state.model.errorMessage}
+        </label>
+      );
+    }
+  }
 
   render() {
     return (
       <div className={this.getWrapperClassName()}>
         <input
           type={this.state.model.type.toLowerCase()}
-          onChange={this.state.model.onChangeHandler}
-          onFocus={this.state.model.activityHandler}
-          onBlur={this.state.model.activityHandler}
+          onChange={this.props.onChange}
+          onFocus={this.props.onActivity}
+          onBlur={this.props.onActivity}
           className={this.getInputClassName()}
           name={this.state.model.name}
         />
-
+        
         <div className={this.getPlaceholderClassName()}>
           {this.capitalize(this.state.model.placeholder)}
         </div>

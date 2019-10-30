@@ -36,9 +36,9 @@ export class TextInput extends Component {
     return text.toUpperCase();
   };
 
-  ifExists = () => {
-    if(this.props.valid === false){
-      return(<label className="sign-up-form__input-label">This login already exists</label>);
+  ifError = () => {
+    if(!this.state.model.isValid){
+      return(<label className="sign-up-form__input-label">{this.state.model.errorMessage}</label>);
     }
   };
 
@@ -47,16 +47,16 @@ export class TextInput extends Component {
       <div className={this.getWrapperClassName()}>
         <input
           type={this.state.model.type.toLowerCase()}
-          onChange={this.state.model.onChangeHandler}
-          onFocus={this.state.model.activityHandler}
-          onBlur={this.state.model.activityHandler}
+          onChange={this.props.onChange}
+          onFocus={this.props.onActivity}
+          onBlur={this.props.onActivity}
           className="sign-up-form__input sign-up-form__input--text"
           name={this.state.model.name}
         />
         <div className={this.getPlaceholderClassName()}>
           {this.capitalize(this.state.model.placeholder)}
         </div>
-        {this.ifExists()}
+        {this.ifError()}
       </div>
     );
   }

@@ -1,17 +1,12 @@
 export class InputModel{
-    constructor(name, type, placeholder = "", activityHandler = () => {}, onChangeHandler = () => {}){
+    constructor(name, type, errorMessage ,placeholder = ""){
         this.name = name;
         this.type = type;
+        this.errorMessage = errorMessage;
         this.placeholder = placeholder;
-        this.activityHandler = activityHandler;
-        this.onChangeHandler = onChangeHandler;
+        this.isValid = true;
+        this.isActive = false;
+        this.value = ""
     }
-    name = "";
-    type = "";
-    value = "";
-    placeholder = "";
-    isActive = false;
-    activityHandler = () => {};
-    onChangeHandler = () => {};
 
 }
