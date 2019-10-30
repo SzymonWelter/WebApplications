@@ -16,6 +16,7 @@ export class SignUp extends Component {
     super();
 
     this.state = {
+      connection: true,
       loading: false,
       isValid: true,
       inputs: inputs()
@@ -44,42 +45,44 @@ export class SignUp extends Component {
   };
 
   onChange = event => {
-    let inputGroup = this.state.inputs;
-    let index = inputGroup.findIndex(x => x.name == event.target.name);
-
-    inputGroup[index].value = event.target.value;
-
-    this.setState({
-      inputs: inputGroup
-    });
-  };
-
-  onChangeLogin = async event => {
     event.persist();
-    var response = await fetch(
-      "http://localhost:4000/user/login/exists?login=" + event.target.value
-    );
-    var result = await response.json();
 
     this.setState(prevState => ({
       inputs: prevState.inputs.map(x =>
         x.name === event.target.name
           ? Object.assign(x, {
               value: event.target.value,
-              isValid: !result.exists
+              valid: true
             })
           : x
-      ),
-      isValid: !result.exists
+      )
     }));
   };
 
+  onChangeLogin = async event => {
+    event.persist();
+    this.onChange(event);
+    try {
+      var response = await fetch(
+        "http://localhost:4000/user/login/exists?login=" + event.target.value
+      );
+      var result = await response.json();
+    } catch (error) {
+      this.setState({
+        connection: false
+      });
+      return;
+    }
+
+    this.setState({
+      isValid: !result.exists
+    });
+  };
+
   onChangePhoto = event => {
-    let inputGroup = this.state.inputs;
-    let index = inputGroup.findIndex(x => x.name == event.target.name);
+    event.persist();
 
     let filename = event.target.files[0].name;
-    inputGroup[index].value = filename;
 
     this.setState(prevState => ({
       inputs: prevState.inputs.map(x =>
@@ -92,6 +95,90 @@ export class SignUp extends Component {
     }));
 
     this.activityInputHandler(event);
+  };
+
+  onChangePassword = event => {
+    event.persist();
+
+    let password = event.target.value;
+    let isValid = true;
+    if (password.length < 8) {
+      isValid = false;
+    }
+
+    this.setState(prevState => ({
+      inputs: prevState.inputs.map(x =>
+        x.name === event.target.name
+          ? Object.assign(x, {
+              value: password,
+              isValid: isValid
+            })
+          : x
+      )
+    }));
+
+    let refPassword = this.state.inputs.filter(
+      x => x.name === "confirmPassword"
+    )[0].value;
+
+    let refIsValid = true;
+
+    if (password !== refPassword) {
+      refIsValid = false;
+    }
+
+    this.setState(prevState => ({
+      inputs: prevState.inputs.map(x =>
+        x.name === "confirmPassword"
+          ? Object.assign(x, {
+              isValid: refIsValid
+            })
+          : x
+      )
+    }));
+  };
+
+  onChangeConfirmPassword = event => {
+    event.persist();
+
+    let password = event.target.value;
+    let isValid = true;
+    let refPassword = this.state.inputs.filter(x => x.name === "password")[0]
+      .value;
+    if (password !== refPassword) {
+      isValid = false;
+    }
+
+    this.setState(prevState => ({
+      inputs: prevState.inputs.map(x =>
+        x.name === event.target.name
+          ? Object.assign(x, {
+              value: password,
+              isValid: isValid
+            })
+          : x
+      )
+    }));
+  };
+
+  onChangePesel = event => {
+    event.persist();
+    let pesel = event.target.value;
+    let isValid = true;
+    if (!(pesel.length === 11 && /^\d+$/.test(pesel))) {
+      isValid = false;
+    }
+
+    this.setState(prevState => ({
+      inputs: prevState.inputs.map(x =>
+        x.name === event.target.name
+          ? Object.assign(x, {
+              value: pesel,
+              isValid: isValid
+            })
+          : x
+      )
+    }));
   };
 
   async onSubmit(e) {
@@ -123,6 +210,8 @@ export class SignUp extends Component {
   }
 
   clearForm() {
+    document.getElementsByTagName("form")[0].reset();
+
     this.setState(prevState => ({
       loading: false,
       isValid: true,
@@ -166,14 +255,14 @@ export class SignUp extends Component {
                 <div className="col col-12 col-md-6">
                   <TextInput
                     model={this.state.inputs[3]}
-                    onChange={this.onChange}
+                    onChange={this.onChangePassword}
                     onActivity={this.activityInputHandler}
                   />
                 </div>
                 <div className="col col-12 col-md-6">
                   <TextInput
                     model={this.state.inputs[4]}
-                    onChange={this.onChange}
+                    onChange={this.onChangeConfirmPassword}
                     onActivity={this.activityInputHandler}
                   />
                 </div>
@@ -187,7 +276,7 @@ export class SignUp extends Component {
                 <div className="col col-12 col-md-6">
                   <TextInput
                     model={this.state.inputs[6]}
-                    onChange={this.onChange}
+                    onChange={this.onChangePesel}
                     onActivity={this.activityInputHandler}
                   />
                 </div>

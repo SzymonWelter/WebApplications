@@ -15,9 +15,9 @@ export class DateInput extends Component {
 
   getWrapperClassName() {
     var prefix = "sign-up-form__input-wrapper ";
-    var suffix = this.state.model["isActive"]
+    var suffix = this.state.model.isActive
       ? "sign-up-form__input-wrapper--active"
-      : "";
+      : "sign-up-form__input-wrapper--inactive";
     return prefix + suffix;
   }
 
@@ -43,7 +43,7 @@ export class DateInput extends Component {
   ifError = () => {
     if (!this.state.model.valid) {
       return (
-        <label className="sign-up-form__input-label">
+        <label className="sign-up-form__input-label-error">
           {this.state.model.errorMessage}
         </label>
       );

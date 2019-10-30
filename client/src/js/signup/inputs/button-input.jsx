@@ -34,7 +34,7 @@ export class ButtonInput extends Component {
           className={
             "sign-up-form__input sign-up-form__input--button sign-up-form__input--button-" +
             this.props.color +
-            (this.props.valid ? "" : " sign-up-form__input sign-up-form__input--button-disabled")
+            (this.props.isValid ? "" : " sign-up-form__input sign-up-form__input--button-disabled")
           }
           name={this.state.model.name}
           value={this.state.model.name.toUpperCase()}

@@ -17,7 +17,7 @@ export class FileInput extends Component {
   ifError = () => {
     if (!this.state.model.valid) {
       return (
-        <label className="sign-up-form__input-label">
+        <label className="sign-up-form__input-label-error">
           {this.state.errorMessage}
         </label>
       );
@@ -39,10 +39,13 @@ export class FileInput extends Component {
           name={this.state.model.name}
           accept="image/*"
         />
-        <div className="sign-up-form__input--file-wrapper">Choose file</div>
-        <div className="sign-up-form__input--file-label">
-          {this.state.model.value}
+        <div className="sign-up-form__input--file-wrapper">
+          <label>Choose file</label>{" "}
+          <div className="sign-up-form__input--file-label">
+            {this.state.model.value}
+          </div>
         </div>
+
         {this.ifError()}
       </div>
     );

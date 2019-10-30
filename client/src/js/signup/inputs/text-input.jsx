@@ -14,8 +14,17 @@ export class TextInput extends Component {
 
   getWrapperClassName() {
     var prefix = "sign-up-form__input-wrapper ";
-    var suffix = this.state.model["isActive"]
-      ? "sign-up-form__input-wrapper--active"
+    let suffix =
+      this.state.model.isValid &&
+      this.state.model.value &&
+      !this.state.model.isActive
+        ? "sign-up-form__input-wrapper--valid "
+        : "";
+    suffix += this.state.model.isActive
+      ? "sign-up-form__input-wrapper--active "
+      : "sign-up-form__input-wrapper--inactive ";
+    suffix += !this.state.model.isValid
+      ? "sign-up-form__input-wrapper--error "
       : "";
     return prefix + suffix;
   }
@@ -23,12 +32,21 @@ export class TextInput extends Component {
   getPlaceholderClassName() {
     var prefix = "sign-up-form__input-placeholder ";
     var suffix =
-      this.state.model["isActive"] || this.state.model["value"]
+      this.state.model.isActive || this.state.model.value
         ? "sign-up-form__input-placeholder--top "
         : "";
-    suffix += this.state.model["isActive"]
-      ? "sign-up-form__input-placeholder--active"
+    suffix += this.state.model.isActive
+      ? "sign-up-form__input-placeholder--active "
       : "";
+    suffix +=
+      this.state.model.isValid && this.state.model.value && !this.state.model.isActive
+        ? "sign-up-form__input-placeholder--valid "
+        : "";
+    suffix +=
+      !this.state.model.isValid &&
+      (this.state.model.isActive || this.state.model.value)
+        ? "sign-up-form__input-placeholder--error "
+        : "";
     return prefix + suffix;
   }
 
@@ -37,8 +55,12 @@ export class TextInput extends Component {
   };
 
   ifError = () => {
-    if(!this.state.model.isValid){
-      return(<label className="sign-up-form__input-label">{this.state.model.errorMessage}</label>);
+    if (!this.state.model.isValid) {
+      return (
+        <label className="sign-up-form__input-label-error">
+          {this.state.model.errorMessage}
+        </label>
+      );
     }
   };
 
