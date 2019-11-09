@@ -19,7 +19,6 @@ $form-min-width: 300px;
   animation: fall 1s ease;
 }
 
-
 .sign-up-form {
   &__header {
     font-size: 50px;
@@ -84,6 +83,7 @@ $form-min-width: 300px;
         font-size: 12px;
         color: red;
         width: max-content;
+        pointer-events: none;
       }
     }
 

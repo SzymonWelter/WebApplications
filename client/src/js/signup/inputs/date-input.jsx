@@ -15,21 +15,39 @@ export class DateInput extends Component {
 
   getWrapperClassName() {
     var prefix = "sign-up-form__input-wrapper ";
-    var suffix = this.state.model.isActive
-      ? "sign-up-form__input-wrapper--active"
-      : "sign-up-form__input-wrapper--inactive";
+    let suffix =
+      this.state.model.isValid &&
+      this.state.model.value &&
+      !this.state.model.isActive
+        ? "sign-up-form__input-wrapper--valid "
+        : "";
+    suffix += this.state.model.isActive
+      ? "sign-up-form__input-wrapper--active "
+      : "sign-up-form__input-wrapper--inactive ";
+    suffix += !this.state.model.isValid
+      ? "sign-up-form__input-wrapper--error "
+      : "";
     return prefix + suffix;
   }
 
   getPlaceholderClassName() {
     var prefix = "sign-up-form__input-placeholder ";
     var suffix =
-      this.state.model["isActive"] || this.state.model["value"]
+      this.state.model.isActive || this.state.model.value
         ? "sign-up-form__input-placeholder--top "
         : "";
-    suffix += this.state.model["isActive"]
-      ? "sign-up-form__input-placeholder--active"
+    suffix += this.state.model.isActive
+      ? "sign-up-form__input-placeholder--active "
       : "";
+    suffix +=
+      this.state.model.isValid && this.state.model.value && !this.state.model.isActive
+        ? "sign-up-form__input-placeholder--valid "
+        : "";
+    suffix +=
+      !this.state.model.isValid &&
+      (this.state.model.isActive || this.state.model.value)
+        ? "sign-up-form__input-placeholder--error "
+        : "";
     return prefix + suffix;
   }
 
@@ -41,13 +59,21 @@ export class DateInput extends Component {
     return "sign-up-form__input sign-up-form__input--date " + suffix;
   }
   ifError = () => {
-    if (!this.state.model.valid) {
+    if (!this.state.model.isValid) {
       return (
         <label className="sign-up-form__input-label-error">
-          {this.state.model.errorMessage}
+          {this.getErrorMessage()}
         </label>
       );
     }
+  };
+
+  getErrorMessage = () => {
+    return this.isEmpty() ? "Input is required" : this.state.model.errorMessage;
+  }
+
+  isEmpty = () => {
+    return this.state.model.value === undefined || this.state.model.value.length === 0;
   }
 
   render() {
@@ -65,6 +91,7 @@ export class DateInput extends Component {
         <div className={this.getPlaceholderClassName()}>
           {this.capitalize(this.state.model.placeholder)}
         </div>
+        {this.ifError()}
       </div>
     );
   }

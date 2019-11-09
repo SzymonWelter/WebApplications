@@ -1,6 +1,6 @@
 import {InputModel} from './';
 
-export const inputs = () => [...inputGroup]
+export const Inputs = () => [...inputGroup]
 
 const inputGroup = [
     new InputModel(

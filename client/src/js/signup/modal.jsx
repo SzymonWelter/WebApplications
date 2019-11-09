@@ -6,8 +6,8 @@ export class Modal extends Component {
     this.getHeader = this.getHeader.bind(this);
   }
   getHeader() {
-    if (this.props.error) return "Can not sign in";
-    return "You are signed in!";
+    if (this.props.success) return "You are signed in!";
+    return "Data are incorrect";
   }
 
   render() {

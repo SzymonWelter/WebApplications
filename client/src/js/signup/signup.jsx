@@ -8,7 +8,7 @@ import {
   FileInput,
   ButtonInput,
   Modal,
-  inputs
+  Inputs
 } from "./";
 
 export class SignUp extends Component {
@@ -16,14 +16,16 @@ export class SignUp extends Component {
     super();
 
     this.state = {
-      connection: true,
       loading: false,
-      isValid: true,
-      inputs: inputs()
+      isValid: false,
+      inputs: Inputs(),
+      success: false,
+      modal: false
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.clearForm = this.clearForm.bind(this);
     this.onChangeLogin = this.onChangeLogin.bind(this);
+    this.dataIsValid = this.dataIsValid.bind(this);
   }
 
   activityInputHandler = event => {
@@ -52,7 +54,7 @@ export class SignUp extends Component {
         x.name === event.target.name
           ? Object.assign(x, {
               value: event.target.value,
-              valid: true
+              isValid: true
             })
           : x
       )
@@ -62,33 +64,35 @@ export class SignUp extends Component {
   onChangeLogin = async event => {
     event.persist();
     this.onChange(event);
-    try {
-      var response = await fetch(
-        "http://localhost:4000/user/login/exists?login=" + event.target.value
-      );
-      var result = await response.json();
-    } catch (error) {
-      this.setState({
-        connection: false
-      });
-      return;
-    }
 
-    this.setState({
-      isValid: !result.exists
-    });
+    var response = await fetch(
+      "http://localhost:4000/user/login/exists?login=" + event.target.value
+    );
+    var result = await response.json();
+    this.setState(prevState => ({
+      inputs: prevState.inputs.map(x =>
+        x.name === event.target.name
+          ? Object.assign(x, {
+              isValid: !result.exists,
+              value: event.target.value
+            })
+          : x
+      )
+    }));
   };
 
   onChangePhoto = event => {
     event.persist();
 
     let filename = event.target.files[0].name;
+    let isValid = this.checkExtension(filename);
 
     this.setState(prevState => ({
       inputs: prevState.inputs.map(x =>
         x.name === event.target.name
           ? Object.assign(x, {
-              value: filename
+              value: filename,
+              isValid: isValid
             })
           : x
       )
@@ -96,6 +100,10 @@ export class SignUp extends Component {
 
     this.activityInputHandler(event);
   };
+
+  checkExtension = (filename) => {
+    return (/\.(webp|jpe?g|tiff|png)$/i).test(filename);
+  }
 
   onChangePassword = event => {
     event.persist();
@@ -181,8 +189,58 @@ export class SignUp extends Component {
     }));
   };
 
+  onChangeDate = event => {
+    event.persist();
+    let date = new Date(event.target.value);
+    let validationResult = this.validDate(date);
+
+    this.setState(prevState => ({
+      inputs: prevState.inputs.map(x =>
+        x.name === event.target.name
+          ? Object.assign(x, {
+              value: date,
+              isValid: validationResult.isValid,
+              errorMessage: validationResult.errorMessage
+            })
+          : x
+      )
+    }));
+  };
+
+  validDate = date => {
+    let isValid = true;
+    let errorMessage = "";
+    if (date > new Date().setFullYear(new Date().getFullYear() - 13)) {
+      errorMessage = "You must be older than 13 years old";
+      isValid = false;
+    }
+    if (
+      date < new Date().setFullYear(new Date().getFullYear() - 120) ||
+      date > new Date()
+    ) {
+      errorMessage = "Date is wrong";
+      isValid = false;
+    }
+    return { isValid: isValid, errorMessage: errorMessage };
+  };
+
+  tooOld = (date, errorMessage) => {
+    return;
+  };
+
   async onSubmit(e) {
     e.preventDefault();
+    let isValid = this.dataIsValid();
+    this.setState({
+      isValid: isValid
+    });
+    if (!isValid) {
+      this.setState({
+        modal: true,
+        success: false
+      });
+      return;
+    }
 
     this.setState({
       loading: true
@@ -203,10 +261,11 @@ export class SignUp extends Component {
       method: "POST",
       body: data
     });
-    this.setState({
+    this.setState(prevState => ({
       logging: false,
-      error: !response.ok
-    });
+      modal: true,
+      success: true
+    }));
   }
 
   clearForm() {
@@ -217,11 +276,41 @@ export class SignUp extends Component {
       isValid: true,
       inputs: prevState.inputs.map(x =>
         Object.assign(x, {
-          value: ""
+          value: "",
+          isValid: true,
         })
       )
     }));
   }
+
+  dataIsValid() {
+    let inputs = this.state.inputs;
+    let isValid = true;
+    for (let i of inputs) {
+      if (i.value.length === 0) {
+        isValid = false;
+        this.setState(prevState => ({
+          inputs: prevState.inputs.map(x =>
+            x.name === i.name
+              ? Object.assign(x, {
+                  isValid: false
+                })
+              : x
+          )
+        }));
+      }
+      if (!i.isValid) {
+        isValid = false;
+      }
+    }
+    return isValid;
+  }
+
+  closeModal = () => {
+    this.setState({
+      modal: false
+    });
+  };
 
   render() {
     return (
@@ -269,7 +358,7 @@ export class SignUp extends Component {
                 <div className="col col-12 col-md-6">
                   <DateInput
                     model={this.state.inputs[5]}
-                    onChange={this.onChange}
+                    onChange={this.onChangeDate}
                     onActivity={this.activityInputHandler}
                   />
                 </div>
@@ -312,6 +401,9 @@ export class SignUp extends Component {
             </div>
           </form>
         </div>
+        {this.state.modal ? (
+          <Modal success={this.state.success} close={this.closeModal} />
+        ) : null}
       </section>
     );
   }

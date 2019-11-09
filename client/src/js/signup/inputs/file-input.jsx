@@ -15,18 +15,21 @@ export class FileInput extends Component {
   };
 
   ifError = () => {
-    if (!this.state.model.valid) {
+    if (!this.state.model.isValid) {
       return (
         <label className="sign-up-form__input-label-error">
-          {this.state.errorMessage}
+          {this.getErrorMessage()}
         </label>
       );
     }
-    return (
-      <div className="sign-up-form__input-placeholder sign-up-form__input-placeholder--top sign-up-form__input-placeholder--grey">
-        {this.capitalize(this.state.model.placeholder)}
-      </div>
-    );
+  };
+
+  getErrorMessage = () => {
+    return this.isEmpty() ? "Input is required" : this.state.model.errorMessage;
+  };
+
+  isEmpty = () => {
+    return this.state.value === undefined || this.state.value.length === 0;
   };
 
   render() {
@@ -40,12 +43,14 @@ export class FileInput extends Component {
           accept="image/*"
         />
         <div className="sign-up-form__input--file-wrapper">
-          <label>Choose file</label>{" "}
+          <label>Choose file</label>
           <div className="sign-up-form__input--file-label">
-            {this.state.model.value}
+            { this.state.model.value }
           </div>
         </div>
-
+        <div className="sign-up-form__input-placeholder sign-up-form__input-placeholder--top sign-up-form__input-placeholder--grey">
+          {this.capitalize(this.state.model.placeholder)}
+        </div>
         {this.ifError()}
       </div>
     );

@@ -58,11 +58,19 @@ export class TextInput extends Component {
     if (!this.state.model.isValid) {
       return (
         <label className="sign-up-form__input-label-error">
-          {this.state.model.errorMessage}
+          {this.getErrorMessage()}
         </label>
       );
     }
   };
+
+  getErrorMessage = () => {
+    return this.isEmpty() ? "Input is required" : this.state.model.errorMessage;
+  }
+
+  isEmpty = () => {
+    return this.state.model.value === undefined || this.state.model.value.length === 0;
+  }
 
   render() {
     return (
