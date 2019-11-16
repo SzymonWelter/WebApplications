@@ -3,11 +3,10 @@ import React, { Component } from "react";
 export class Modal extends Component {
   constructor(props) {
     super(props);
-    this.getHeader = this.getHeader.bind(this);
+    this.getContent = this.getContent.bind(this);
   }
-  getHeader() {
-    if (this.props.success) return "You are signed in!";
-    return "Data are incorrect";
+  getContent() {
+    return "There is a problem with signing up. Check your connection or try again later.";
   }
 
   render() {
@@ -15,7 +14,7 @@ export class Modal extends Component {
       <div className="modal" tabIndex="-1" role="dialog">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
-            <h5 className="modal-title">{this.getHeader()}</h5>
+            {this.getContent()}
             <div className="modal-footer">
               <button
                 type="button"

@@ -6,40 +6,43 @@ export class ButtonInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      model: props.model
+      isValid: props.isValid,
+      loading: props.loading
     };
   }
 
-  getPlaceholderClassName() {
-    var prefix = "sign-up-form__input-placeholder ";
-    var suffix =
-      this.state.model["isActive"] || this.state.model["value"]
-        ? "sign-up-form__input-placeholder--top "
-        : "";
-    suffix += this.state.model["isActive"]
-      ? "sign-up-form__input-placeholder--active"
-      : "";
-    return prefix + suffix;
+  getClassName = () => {
+    return "sign-up-form__input sign-up-form__input--button sign-up-form__input--button-" +
+    this.props.color +
+    (this.state.isValid || !this.state.loading
+      ? ""
+      : " sign-up-form__input sign-up-form__input--button-disabled")
   }
 
   capitalize = text => {
     return text.toUpperCase();
   };
 
+  spinner = () => {
+    if (this.state.loading)
+      return (
+        <div className="spinner-grow text-secondary" role="status">
+          <span className="sr-only">Signing up</span>
+        </div>
+      );
+  };
+
   render() {
     return (
       <div className="sign-up-form__input--button-wrapper">
-        <input
-          type={this.state.model.type.toLowerCase()}
-          className={
-            "sign-up-form__input sign-up-form__input--button sign-up-form__input--button-" +
-            this.props.color +
-            (this.props.isValid ? "" : " sign-up-form__input sign-up-form__input--button-disabled")
-          }
-          name={this.state.model.name}
-          value={this.state.model.name.toUpperCase()}
-          onClick={this.props.onClickHandler}
-        />
+        <button
+          type={this.props.type}
+          className={this.getClassName()}
+          name={this.props.name}
+        >
+          {this.props.name.toUpperCase()}
+        </button>
+        {this.spinner()}
       </div>
     );
   }

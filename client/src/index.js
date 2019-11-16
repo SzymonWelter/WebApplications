@@ -2,9 +2,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./styles/styles.scss";
 import React from 'react';
 import ReactDOM from 'react-dom'
-import {SignUp} from './js/signup/signup.jsx';
+import App from './js/App.jsx';
 
 ReactDOM.render(
-      <SignUp />,
+      <App />,
   document.getElementById("root")
 );

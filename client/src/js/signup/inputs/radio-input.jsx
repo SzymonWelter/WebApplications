@@ -25,6 +25,7 @@ export class RadioInput extends Component {
               name={this.state.model.name}
               value="male"
               id="radio-male"
+              onChange={this.props.onChange}
               defaultChecked
             ></input>
             <label htmlFor="radio-male">Male</label>
@@ -35,6 +36,7 @@ export class RadioInput extends Component {
               className="sign-up-form__input sign-up-form__input--radio"
               name={this.state.model.name}
               value="female"
+              onChange={this.props.onChange}
               id="radio-female"
             ></input>
             <label htmlFor="radio-female">Female</label>

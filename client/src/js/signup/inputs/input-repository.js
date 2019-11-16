@@ -49,14 +49,13 @@ const inputGroup = [
         "sex",
         "radio",
         "",
-        "sex"
+        "sex",
+        "male"
       ),
       new InputModel(
         "photo",
         "file",
         "File must be in image format",
         "photo"
-      ),
-      new InputModel("clear", "button"),
-      new InputModel("signup", "submit")
+      )
 ];

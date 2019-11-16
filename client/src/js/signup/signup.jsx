@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import {withRouter} from 'react-router-dom';
+import {Modal} from './modal';
 import {
   InputModel,
   RadioInput,
@@ -7,11 +9,10 @@ import {
   DateInput,
   FileInput,
   ButtonInput,
-  Modal,
   Inputs
-} from "./";
+} from "./inputs";
 
-export class SignUp extends Component {
+class SignUp extends Component {
   constructor() {
     super();
 
@@ -20,7 +21,8 @@ export class SignUp extends Component {
       isValid: false,
       inputs: Inputs(),
       success: false,
-      modal: false
+      modal: false,
+      loading: false
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.clearForm = this.clearForm.bind(this);
@@ -48,7 +50,6 @@ export class SignUp extends Component {
 
   onChange = event => {
     event.persist();
-
     this.setState(prevState => ({
       inputs: prevState.inputs.map(x =>
         x.name === event.target.name
@@ -224,21 +225,14 @@ export class SignUp extends Component {
     return { isValid: isValid, errorMessage: errorMessage };
   };
 
-  tooOld = (date, errorMessage) => {
-    return;
-  };
-
   async onSubmit(e) {
     e.preventDefault();
     let isValid = this.dataIsValid();
     this.setState({
       isValid: isValid
     });
+
     if (!isValid) {
-      this.setState({
-        modal: true,
-        success: false
-      });
       return;
     }
 
@@ -257,15 +251,20 @@ export class SignUp extends Component {
     data.append("sex", form.sex.value);
     data.append("photo", form.photo.files[0]);
 
-    const response = await fetch("http://localhost:4000/user", {
+    var response = await fetch("http://localhost:4000/user", {
       method: "POST",
       body: data
     });
+
     this.setState(prevState => ({
-      logging: false,
-      modal: true,
-      success: true
+      loading: false
     }));
+
+    if(response.status !== 200){
+      this.state.modal = true;
+      return;
+    }
+    this.props.history.push("/signin");
   }
 
   clearForm() {
@@ -288,6 +287,7 @@ export class SignUp extends Component {
     let isValid = true;
     for (let i of inputs) {
       if (i.value.length === 0) {
+        console.log(i);
         isValid = false;
         this.setState(prevState => ({
           inputs: prevState.inputs.map(x =>
@@ -304,6 +304,11 @@ export class SignUp extends Component {
       }
     }
     return isValid;
+  }
+
+  showModal = () =>{
+    if(this.state.modal)
+      return (<Modal close={this.closeModal} />); 
   }
 
   closeModal = () => {
@@ -373,7 +378,6 @@ export class SignUp extends Component {
                   <RadioInput
                     model={this.state.inputs[7]}
                     onChange={this.onChange}
-                    onActivity={this.activityInputHandler}
                   />
                 </div>
                 <div className="col col-12 col-md-6">
@@ -385,26 +389,29 @@ export class SignUp extends Component {
                 </div>
                 <div className="col col-12 col-md-6">
                   <ButtonInput
-                    model={this.state.inputs[9]}
+                    name="cancel"
+                    type="button"
                     color="red"
                     onClickHandler={this.clearForm}
                   />
                 </div>
                 <div className="col col-12 col-md-6">
                   <ButtonInput
-                    model={this.state.inputs[10]}
+                    name="sign up"
+                    type="submit"
                     color="green"
-                    valid={this.state.valid}
+                    isValid={this.state.isValid}
+                    loading={this.state.loading}
                   />
                 </div>
               </div>
             </div>
           </form>
         </div>
-        {this.state.modal ? (
-          <Modal success={this.state.success} close={this.closeModal} />
-        ) : null}
+        {this.showModal()}
       </section>
     );
   }
 }
+
+export default withRouter(SignUp);
