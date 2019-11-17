@@ -1,10 +1,10 @@
 $form-min-width: 300px;
 
-.sign-up-section {
+.signin-section {
   flex-grow: 1;
 }
 
-.sign-up-wrapper {
+.signin-wrapper {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -19,14 +19,16 @@ $form-min-width: 300px;
   animation: fall 1s ease;
 }
 
-.sign-up-form {
+.signin-form {
+  max-width: 400px;
+  margin: auto;
   &__header {
     font-size: 50px;
     color: darkgrey;
     display: block;
     text-align: center;
     margin-bottom: 20px;
-  }  
+  }
 }
 
 .modal {

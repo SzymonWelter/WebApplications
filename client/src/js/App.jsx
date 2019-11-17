@@ -5,6 +5,7 @@ import {
     Route
 } from "react-router-dom";
 import SignUp from './signup/signup';
+import SignIn from './signin/signin';
 
 export default function App() {
     return (
@@ -12,6 +13,9 @@ export default function App() {
             <Switch>
                 <Route path="/signup">
                     <SignUp/>
+                </Route>
+                <Route path="/signin">
+                    <SignIn />
                 </Route>
             </Switch>
         </Router>
