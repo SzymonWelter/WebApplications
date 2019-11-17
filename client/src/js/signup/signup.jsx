@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import {withRouter} from 'react-router-dom';
 import {Modal} from './modal';
 import {
@@ -9,8 +8,8 @@ import {
   DateInput,
   FileInput,
   ButtonInput,
-  Inputs
-} from "./inputs";
+  SignUpInputs
+} from "src/js/inputs";
 
 class SignUp extends Component {
   constructor() {
@@ -19,7 +18,7 @@ class SignUp extends Component {
     this.state = {
       loading: false,
       isValid: false,
-      inputs: Inputs(),
+      inputs: SignUpInputs(),
       success: false,
       modal: false,
       loading: false

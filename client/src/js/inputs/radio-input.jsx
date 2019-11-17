@@ -14,14 +14,14 @@ export class RadioInput extends Component {
     return (
       <div
         className={
-          "mt-3 sign-up-form__input-wrapper sign-up-form__input-wrapper--transparent "
+          "mt-3 input-wrapper input-wrapper--transparent "
         }
       >
-        <div className="sign-up-form__input sign-up-form__input--radio-wrapper">
-          <span className="sign-up-form__input sign-up-form__input--radio-group">
+        <div className="input input--radio-wrapper">
+          <span className="input input--radio-group">
             <input
               type={this.state.model.type.toLowerCase()}
-              className="sign-up-form__input sign-up-form__input--radio"
+              className="input input--radio"
               name={this.state.model.name}
               value="male"
               id="radio-male"
@@ -30,10 +30,10 @@ export class RadioInput extends Component {
             ></input>
             <label htmlFor="radio-male">Male</label>
           </span>
-          <span className="sign-up-form__input sign-up-form__input--radio-group">
+          <span className="input input--radio-group">
             <input
               type={this.state.model.type.toLowerCase()}
-              className="sign-up-form__input sign-up-form__input--radio"
+              className="input input--radio"
               name={this.state.model.name}
               value="female"
               onChange={this.props.onChange}
@@ -44,7 +44,7 @@ export class RadioInput extends Component {
         </div>
         <div
           className={
-            "sign-up-form__input-placeholder sign-up-form__input-placeholder--top sign-up-form__input-placeholder--center sign-up-form__input-placeholder--transparent"
+            "input-placeholder input-placeholder--top input-placeholder--center input-placeholder--transparent"
           }
         >
           {this.state.model.placeholder.toUpperCase()}

@@ -1,8 +1,9 @@
 import {InputModel} from './';
 
-export const Inputs = () => [...inputGroup]
+export const SignUpInputs = () => [...signUpGroup]
+export const SignInInputs = () => [...signInGroup]
 
-const inputGroup = [
+const signUpGroup = [
     new InputModel(
         "firstName",
         "text",
@@ -59,3 +60,18 @@ const inputGroup = [
         "photo"
       )
 ];
+
+const signInGroup = [
+  new InputModel(
+    "login",
+    "text",
+    "User with this login do not exists",
+    "login"
+  ),
+  new InputModel(
+    "password",
+    "password",
+    "Password is incorrect",
+    "password",
+  )
+]

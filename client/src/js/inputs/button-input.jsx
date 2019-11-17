@@ -12,11 +12,11 @@ export class ButtonInput extends Component {
   }
 
   getClassName = () => {
-    return "sign-up-form__input sign-up-form__input--button sign-up-form__input--button-" +
+    return "input input--button input--button-" +
     this.props.color +
     (this.state.isValid || !this.state.loading
       ? ""
-      : " sign-up-form__input sign-up-form__input--button-disabled")
+      : " input input--button-disabled")
   }
 
   capitalize = text => {
@@ -34,7 +34,7 @@ export class ButtonInput extends Component {
 
   render() {
     return (
-      <div className="sign-up-form__input--button-wrapper">
+      <div className="input--button-wrapper">
         <button
           type={this.props.type}
           className={this.getClassName()}

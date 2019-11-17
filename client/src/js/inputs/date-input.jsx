@@ -14,39 +14,39 @@ export class DateInput extends Component {
   }
 
   getWrapperClassName() {
-    var prefix = "sign-up-form__input-wrapper ";
+    var prefix = "input-wrapper ";
     let suffix =
       this.state.model.isValid &&
       this.state.model.value &&
       !this.state.model.isActive
-        ? "sign-up-form__input-wrapper--valid "
+        ? "input-wrapper--valid "
         : "";
     suffix += this.state.model.isActive
-      ? "sign-up-form__input-wrapper--active "
-      : "sign-up-form__input-wrapper--inactive ";
+      ? "input-wrapper--active "
+      : "input-wrapper--inactive ";
     suffix += !this.state.model.isValid
-      ? "sign-up-form__input-wrapper--error "
+      ? "input-wrapper--error "
       : "";
     return prefix + suffix;
   }
 
   getPlaceholderClassName() {
-    var prefix = "sign-up-form__input-placeholder ";
+    var prefix = "input-placeholder ";
     var suffix =
       this.state.model.isActive || this.state.model.value
-        ? "sign-up-form__input-placeholder--top "
+        ? "input-placeholder--top "
         : "";
     suffix += this.state.model.isActive
-      ? "sign-up-form__input-placeholder--active "
+      ? "input-placeholder--active "
       : "";
     suffix +=
       this.state.model.isValid && this.state.model.value && !this.state.model.isActive
-        ? "sign-up-form__input-placeholder--valid "
+        ? "input-placeholder--valid "
         : "";
     suffix +=
       !this.state.model.isValid &&
       (this.state.model.isActive || this.state.model.value)
-        ? "sign-up-form__input-placeholder--error "
+        ? "input-placeholder--error "
         : "";
     return prefix + suffix;
   }
@@ -55,13 +55,13 @@ export class DateInput extends Component {
     return text.toUpperCase();
   };
   getInputClassName(){
-    var suffix = this.state.model.value === "" && !this.state.model.isActive ? "sign-up-form__input--hidden-date" : "";
-    return "sign-up-form__input sign-up-form__input--date " + suffix;
+    var suffix = this.state.model.value === "" && !this.state.model.isActive ? "input--hidden-date" : "";
+    return "input input--date " + suffix;
   }
   ifError = () => {
     if (!this.state.model.isValid) {
       return (
-        <label className="sign-up-form__input-label-error">
+        <label className="input-label-error">
           {this.getErrorMessage()}
         </label>
       );

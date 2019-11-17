@@ -5,7 +5,10 @@ const isProduction = process.env.NODE_ENV === "production";
 
 module.exports = {
   resolve: {
-    extensions: [".js", ".jsx"]
+    extensions: [".js", ".jsx"],
+    alias:{
+      src: path.resolve(__dirname, 'src/')
+    }
   },
   entry: "./src/index.js",
   output: {
