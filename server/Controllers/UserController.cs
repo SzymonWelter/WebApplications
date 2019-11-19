@@ -44,6 +44,5 @@ namespace server.Controllers
             var result = await _usersRepository.ExistsLoginAsync(login);
             return Ok(new { Exists = result});
         }
-
     }
 }

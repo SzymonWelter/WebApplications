@@ -23,6 +23,28 @@ export class ButtonInput extends Component {
     return text.toUpperCase();
   };
 
+  renderButton = () => {
+    if(this.props.onClick){
+      return (<button
+        type={this.props.type}
+        className={this.getClassName()}
+        name={this.props.name}
+        onClick={this.props.onClick}
+      >
+        {this.props.name.toUpperCase()}
+      </button>);
+    }
+    else{
+      return(<button
+        type={this.props.type}
+        className={this.getClassName()}
+        name={this.props.name}
+      >
+        {this.props.name.toUpperCase()}
+      </button>);
+    }
+  }
+
   spinner = () => {
     if (this.state.loading)
       return (
@@ -35,13 +57,7 @@ export class ButtonInput extends Component {
   render() {
     return (
       <div className="input--button-wrapper">
-        <button
-          type={this.props.type}
-          className={this.getClassName()}
-          name={this.props.name}
-        >
-          {this.props.name.toUpperCase()}
-        </button>
+        {this.renderButton()}
         {this.spinner()}
       </div>
     );

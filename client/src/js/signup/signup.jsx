@@ -391,7 +391,7 @@ class SignUp extends Component {
                     name="cancel"
                     type="button"
                     color="red"
-                    onClickHandler={this.clearForm}
+                    onClick={this.clearForm}
                   />
                 </div>
                 <div className="col col-12 col-md-6">
