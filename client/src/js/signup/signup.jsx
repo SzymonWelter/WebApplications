@@ -263,6 +263,7 @@ class SignUp extends Component {
       this.state.modal = true;
       return;
     }
+    this.clearForm();
     this.props.history.push("/signin");
   }
 
