@@ -4,23 +4,29 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace server.Helpers {
-    public static class ServiceCollectionExtensions {
-        public static void AddJwtAuthorization (this IServiceCollection services, IConfiguration configuration) {
+namespace server.Helpers
+{
+    public static class ServiceCollectionExtensions
+    {
+        public static void AddJwtAuthorization(this IServiceCollection services, IConfiguration configuration)
+        {
 
             var secret = configuration["Authorization:Secret"];
-            var key = Encoding.ASCII.GetBytes (secret);
+            var key = Encoding.ASCII.GetBytes(secret);
 
-            services.AddAuthentication (options => {
+            services.AddAuthentication(options =>
+                {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
-                .AddJwtBearer (options => {
+                .AddJwtBearer(options =>
+                {
                     options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
-                    options.TokenValidationParameters = new TokenValidationParameters {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey (key),
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };

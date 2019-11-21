@@ -4,44 +4,57 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using server.Helpers;
+using server.Services.AuthorizationService;
+using server.Services.ConfigurationService;
 using server.Services.MapService;
 using server.Services.Repositories;
 
-namespace server {
-    public class Startup {
-        public Startup (IConfiguration configuration) {
+namespace server
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices (IServiceCollection services) {
-            services.AddControllers ();
-            services.AddSingleton<IUsersRepository, UsersRepository> ();
-            services.AddTransient<IMapService, MapService> ();
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllers();
 
-            services.AddJwtAuthorization (Configuration);
+            services.AddSingleton<IUsersRepository, UsersRepository>();
+
+            services.AddTransient<IMapService, MapService>();
+            services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IConfigurationService, ConfigurationService>();
+
+            services.AddJwtAuthorization(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
-            if (env.IsDevelopment ()) {
-                app.UseDeveloperExceptionPage ();
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting ();
+            app.UseRouting();
 
-            app.UseCors (options => options
-                .AllowAnyOrigin ()
-                .AllowAnyMethod ()
-                .AllowAnyHeader ());
+            app.UseCors(options => options
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
-            app.UseAuthentication ();
-            app.UseAuthorization ();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseEndpoints (endpoints => {
-                endpoints.MapControllers ();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
             });
         }
     }

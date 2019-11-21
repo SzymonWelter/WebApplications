@@ -9,6 +9,10 @@ namespace server.Services.MapService
 {
     public interface IMapService
     {
-        User Map(UserDTO userDTO);
+        SignUpModel Map(SignUpModelDTO userDTO);
+
+        SignInModel Map(SignInModelDTO signInModel);
+
+        AuthenticationResultDTO Map(AuthenticationResultModel authenticationResult);
     }
 }
