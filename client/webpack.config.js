@@ -6,15 +6,15 @@ const isProduction = process.env.NODE_ENV === "production";
 module.exports = {
   resolve: {
     extensions: [".js", ".jsx"],
-    alias:{
-      src: path.resolve(__dirname, 'src/')
+    alias: {
+      src: path.resolve(__dirname, "src/")
     }
   },
   entry: "./src/index.js",
   output: {
     filename: "main.js",
     path: path.resolve(__dirname, "dist"),
-    publicPath: '/'
+    publicPath: "/"
   },
   module: {
     rules: [
@@ -24,20 +24,15 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env']
+            presets: ["@babel/preset-env"]
           }
         }
       },
       {
         test: /\.s?(c|a)ss$/,
         use: [
-          isProduction
-            ? MiniCssExtractPlugin.loader
-            : // Creates `style` nodes from JS strings
-              "style-loader",
-          // Translates CSS into CommonJS
+          isProduction ? MiniCssExtractPlugin.loader : "style-loader",
           "css-loader",
-          // Compiles Sass to CSS
           "sass-loader",
           "postcss-loader"
         ]
@@ -45,12 +40,12 @@ module.exports = {
     ]
   },
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   plugins: [
     new HTMLWebpackPlugin({
       filename: "index.html",
-      template: './src/assets/template.html'
+      template: "./src/assets/template.html"
     }),
     new MiniCssExtractPlugin({
       filename: "[name].css",

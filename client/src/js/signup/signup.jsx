@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import {withRouter} from 'react-router-dom';
-import {Modal} from './modal';
+import { withRouter } from "react-router-dom";
+import { Modal } from "./modal";
 import {
   InputModel,
   RadioInput,
@@ -101,9 +101,9 @@ class SignUp extends Component {
     this.activityInputHandler(event);
   };
 
-  checkExtension = (filename) => {
-    return (/\.(webp|jpe?g|tiff|png)$/i).test(filename);
-  }
+  checkExtension = filename => {
+    return /\.(webp|jpe?g|tiff|png)$/i.test(filename);
+  };
 
   onChangePassword = event => {
     event.persist();
@@ -250,7 +250,7 @@ class SignUp extends Component {
     data.append("sex", form.sex.value);
     data.append("photo", form.photo.files[0]);
 
-    var response = await fetch("http://localhost:4000/user", {
+    var response = await fetch("http://localhost:4000/user/signup", {
       method: "POST",
       body: data
     });
@@ -259,7 +259,7 @@ class SignUp extends Component {
       loading: false
     }));
 
-    if(response.status !== 200){
+    if (response.status !== 200) {
       this.state.modal = true;
       return;
     }
@@ -276,7 +276,7 @@ class SignUp extends Component {
       inputs: prevState.inputs.map(x =>
         Object.assign(x, {
           value: "",
-          isValid: true,
+          isValid: true
         })
       )
     }));
@@ -306,10 +306,9 @@ class SignUp extends Component {
     return isValid;
   }
 
-  showModal = () =>{
-    if(this.state.modal)
-      return (<Modal close={this.closeModal} />); 
-  }
+  showModal = () => {
+    if (this.state.modal) return <Modal close={this.closeModal} />;
+  };
 
   closeModal = () => {
     this.setState({
