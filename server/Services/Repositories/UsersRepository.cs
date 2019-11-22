@@ -7,30 +7,30 @@ using server.Models.DTO;
 
 namespace server.Services.Repositories
 {
-    public class UsersRepository : IUsersRepository
+    internal class UsersRepository : IUsersRepository
     {
-        private readonly List<User> users = new List<User>();
-        public void Add(User user)
+        private readonly List<SignUpModel> users = new List<SignUpModel>();
+        private void Add(SignUpModel user)
         {
             users.Add(user);
         }
 
-        public async Task AddAsync(User user)
+        public async Task AddAsync(SignUpModel user)
         {
             await Task.Run(() => Add(user));
         }
 
-        public bool Exists(Predicate<User> condition)
+        private bool Exists(Predicate<SignUpModel> condition)
         {
             return users.Exists(condition);
         }
 
-        public async Task<bool> ExistsAsync(Predicate<User> condition)
+        public async Task<bool> ExistsAsync(Predicate<SignUpModel> condition)
         {
             return await Task.Run(() => Exists(condition));
         }
 
-        public bool ExistsLogin(string login)
+        private bool ExistsLogin(string login)
         {
             return Exists(x => x.Login == login);
         }
@@ -38,6 +38,17 @@ namespace server.Services.Repositories
         public async Task<bool> ExistsLoginAsync(string login)
         {
             return await ExistsAsync(x => x.Login == login);
+        }
+
+        public async Task<string> GetPasswordAsync(string login)
+        {
+            return await Task.Run(() => GetPassword(login));
+        }
+
+        private string GetPassword(string login)
+        {
+            var user = users.Find(user => user.Login == login);
+            return user.Password;
         }
     }
 }

@@ -10,9 +10,9 @@ namespace server.Services.MapService
 {
     public class MapService : IMapService
     {
-        public User Map(UserDTO userDTO)
+        public SignUpModel Map(SignUpModelDTO userDTO)
         {
-            return new User
+            var result = new SignUpModel
             {
                 FirstName = userDTO.FirstName,
                 LastName = userDTO.LastName,
@@ -23,6 +23,28 @@ namespace server.Services.MapService
                 Sex = Enum.Parse<Sex>(userDTO.Sex, true),
                 Photo = userDTO.Photo
             };
+            return result;
+        }
+
+        public SignInModel Map(SignInModelDTO signInModel)
+        {
+            var result = new SignInModel
+            {
+                Login = signInModel.Login,
+                Password = signInModel.Password
+            };
+            return result;
+        }
+
+        public AuthenticationResultDTO Map(AuthenticationResultModel authenticationResult)
+        {
+            var result = new AuthenticationResultDTO
+            {
+                IsSuccess = authenticationResult.IsSuccess,
+                Message = authenticationResult.Message,
+                Token = authenticationResult.Token
+            };
+            return result;
         }
     }
 }

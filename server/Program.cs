@@ -18,12 +18,13 @@ namespace server
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.ConfigureKestrel(config =>
                 {
-                    webBuilder.UseKestrel( config => {
-                        config.ListenAnyIP(4000);
-                    });
-                    webBuilder.UseStartup<Startup>();
+                    config.ListenAnyIP(8080);
                 });
+                webBuilder.UseStartup<Startup>();
+            });
     }
 }

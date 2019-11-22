@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using server.Helpers;
+using server.Services.AuthorizationService;
+using server.Services.ConfigurationService;
 using server.Services.MapService;
 using server.Services.Repositories;
 
@@ -28,14 +24,14 @@ namespace server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
             services.AddSingleton<IUsersRepository, UsersRepository>();
+
             services.AddTransient<IMapService, MapService>();
-            services.AddCors(opt => opt.AddPolicy("Any", builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
+            services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IConfigurationService, ConfigurationService>();
+
+            services.AddJwtAuthorization(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +43,14 @@ namespace server
             }
 
             app.UseRouting();
-            app.UseCors("Any");
+
+            app.UseCors(options => options
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
