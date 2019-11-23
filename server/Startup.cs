@@ -31,6 +31,12 @@ namespace Server
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IConfigurationService, ConfigurationService>();
 
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = "localhost";
+                options.InstanceName = "master";
+            });
+
             services.AddJwtAuthorization(Configuration);
         }
 

@@ -6,5 +6,6 @@ namespace Server.Services.AuthorizationService
     public interface IAuthService
     {
         Task<AuthenticationResultModel> Authenticate(SignInModel signinModel);
+        Task Logout(string authHeader);
     }
 }

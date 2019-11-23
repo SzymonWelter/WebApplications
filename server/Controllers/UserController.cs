@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Server.Models.DTO;
 using Server.Services.AuthorizationService;
 using Server.Services.MapService;
@@ -14,17 +13,15 @@ namespace Server.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly ILogger<UserController> _logger;
         private readonly IMapService _mapService;
         private readonly IUsersRepository _usersRepository;
-        private readonly IAuthService _authorizationService;
+        private readonly IAuthService _authService;
 
-        public UserController(ILogger<UserController> logger, IUsersRepository usersRepository, IMapService mapService, IAuthService authorizationService)
+        public UserController( IUsersRepository usersRepository, IMapService mapService, IAuthService authService)
         {
-            _logger = logger;
             _mapService = mapService;
             _usersRepository = usersRepository;
-            _authorizationService = authorizationService;
+            _authService = authService;
         }
 
         [HttpPost("signup")]
@@ -50,7 +47,7 @@ namespace Server.Controllers
 
             var signInModel = _mapService.Map(signInModelDTO);
 
-            var authResult = await _authorizationService.Authenticate(signInModel);
+            var authResult = await _authService.Authenticate(signInModel);
 
             var authResultDTO = _mapService.Map(authResult);
 
@@ -62,6 +59,14 @@ namespace Server.Controllers
         {
             var result = await _usersRepository.ExistsLoginAsync(login);
             return Ok(new { Exists = result });
+        }
+
+        [Authorize]
+        [HttpDelete("logout")]
+        public async Task<ActionResult> Logout()
+        {
+            await _authService.Logout(Request.Headers["Authorization"].ToString());
+            return Ok();
         }
     }
 }
