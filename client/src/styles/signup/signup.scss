@@ -6,9 +6,10 @@ $form-min-width: 300px;
 
 .sign-up-wrapper {
   position: absolute;
-  top: 50%;
+  top: 50px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  margin-bottom: 50px;
+  transform: translateX(-50%);
   background-color: rgba(230, 230, 230, 0.26);
   border-radius: 1em;
   padding: 10px;
@@ -16,7 +17,7 @@ $form-min-width: 300px;
   max-width: 700px;
   width: 70%;
   box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  animation: fall 1s ease;
+  animation: slide 1s ease;
 }
 
 .sign-up-form {
@@ -37,11 +38,11 @@ $form-min-width: 300px;
   }
 }
 
-@keyframes fall {
-  from {
-    top: 30%;
-  }
-  to {
-    top: 50%;
+@keyframes slide {
+  from{
+    top: 0;
+  } 
+  to{
+    top: 50px;
   }
 }

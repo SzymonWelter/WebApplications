@@ -30,7 +30,7 @@ export default class App extends Component {
   render() {
     return (
       <Router history={history}>
-        {this.state.currentUser && <h1>Here it will be navigation bar</h1>}
+        {this.state.currentUser && <h1>It will be navigation bar here</h1>}
         <Switch>        
           <PrivateRoute exact path="/" component={Home}></PrivateRoute>
           <Route path="/signin" component={SignIn} />

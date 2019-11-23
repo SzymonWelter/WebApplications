@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { TextInput, ButtonInput, SignInInputs } from "src/js/inputs";
+import { Error } from "./";
 import { Link } from "react-router-dom";
 import { authenticationService } from "src/js/services";
 
@@ -10,30 +11,41 @@ export default class SignIn extends Component {
     if (authenticationService.currentUserValue) {
       this.props.history.push("/");
     }
-    this.state = {
-      loading: false,
-      isValid: true,
-      error: "",
-      models: SignInInputs()
-    };
+
+    this.state = this.baseState();
+    this.form = React.createRef();
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  baseState = () => ({
+    loading: false,
+    isValid: true,
+    error: "",
+    models: SignInInputs()
+  });
+
   async onSubmit(event) {
-    const login = event.target.login;
-    const password = event.target.password;
+    event.preventDefault();
+    const login = event.target.login.value;
+    const password = event.target.password.value;
     authenticationService.login(login, password).then(
-      user => {
-        const { prevLocation } = this.props.location.state || {
-          prevState: { pathname: "/" }
+      result => {
+        const { from } = this.props.location.state || {
+          from: { pathname: "/" }
         };
-        this.props.history.push(prevLocation);
+        this.reset();
+        this.props.history.push(from);
       },
       error => {
-        console.log(error);
+        this.setState({ error: error.message });
       }
     );
   }
+
+  reset = () => {
+    this.form.current.reset();
+    this.setState(this.baseState());
+  };
 
   activityInputHandler = event => {
     event.persist();
@@ -64,7 +76,11 @@ export default class SignIn extends Component {
     return (
       <section className="signin-section">
         <div className="signin-wrapper">
-          <form className="signin-form" onSubmit={this.onSubmit}>
+          <form
+            className="signin-form"
+            onSubmit={this.onSubmit}
+            ref={this.form}
+          >
             <header className="signin-form__header">Sign in</header>
             <div className="container">
               <div className="row">
@@ -87,16 +103,21 @@ export default class SignIn extends Component {
               </div>
               <div className="row">
                 <div className="col">
-                  <input type="checkbox" />
-                  <label>Remember me</label>
+                  <div className="center-child">
+                    <Link to={"/signup"}>Sign up</Link>
+                  </div>
                 </div>
                 <div className="col">
-                  <ButtonInput name="Sign in" color="green"></ButtonInput>
+                  <ButtonInput
+                    name="Sign in"
+                    color="green"
+                    type="submit"
+                  ></ButtonInput>
                 </div>
               </div>
               <div className="row">
                 <div className="col">
-                  <Link to={"/signup"}>Sign up</Link>
+                  <Error message={this.state.error}></Error>
                 </div>
               </div>
             </div>

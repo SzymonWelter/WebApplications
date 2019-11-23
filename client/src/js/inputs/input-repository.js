@@ -1,7 +1,7 @@
 import {InputModel} from './';
 
-export const SignUpInputs = () => [...signUpGroup]
-export const SignInInputs = () => [...signInGroup]
+export const SignUpInputs = () => JSON.parse(JSON.stringify(signUpGroup))
+export const SignInInputs = () => JSON.parse(JSON.stringify(signInGroup))
 
 const signUpGroup = [
     new InputModel(

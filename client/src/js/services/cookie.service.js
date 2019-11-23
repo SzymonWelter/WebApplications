@@ -4,14 +4,15 @@ export const cookieService = {
     removeCookie,
 }
 
-function setCookie(){
-    console.log("setCookie");
+function setCookie(name, value, expiration){
+    document.cookie = name + "=" + value + ";path=/;expires=" + expiration;
 }
 
-function getCookie(){
-    return undefined;
+function getCookie(name){
+    var cookie = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    return cookie ? cookie[2] : null;
 }
 
-function removeCookie(){
-    console.log("removeCookie");
+function removeCookie(name){
+    document.cookie = name+'=; Max-Age=-99999999;';
 }

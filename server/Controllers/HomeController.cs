@@ -12,7 +12,7 @@ namespace server.Controllers
         [HttpGet]
         public async Task<ActionResult> Home()
         {
-            return Ok();
+            return await Task.Run(() => Ok());
         }
     }
 }

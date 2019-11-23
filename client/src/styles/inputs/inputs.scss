@@ -1,5 +1,7 @@
 .input {
-    outline: none;
+    &:focus{
+      outline: none;
+    }
     padding: 10px 0;
 
     &-wrapper {

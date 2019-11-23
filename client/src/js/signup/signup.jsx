@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Modal } from "./modal";
 import {
   InputModel,
@@ -11,7 +11,7 @@ import {
   SignUpInputs
 } from "src/js/inputs";
 
-class SignUp extends Component {
+export default class SignUp extends Component {
   constructor() {
     super();
 
@@ -30,21 +30,14 @@ class SignUp extends Component {
   }
 
   activityInputHandler = event => {
-    let inputGroup = this.state.inputs;
-    let oldIndex = inputGroup.findIndex(x => x.isActive);
-    let newIndex = inputGroup.findIndex(x => x.name === event.target.name);
-
-    if (oldIndex !== -1) {
-      inputGroup[oldIndex].isActive = false;
-    }
-
-    if (event.type === "focus") {
-      inputGroup[newIndex].isActive = true;
-    }
-
-    this.setState({
-      inputs: inputGroup
-    });
+    event.persist();
+    this.setState(prevState => ({
+      models: prevState.inputs.map(x =>
+        Object.assign(x, {
+          isActive: x.name === event.target.name && event.type === "focus"
+        })
+      )
+    }));
   };
 
   onChange = event => {
@@ -89,7 +82,7 @@ class SignUp extends Component {
 
     this.setState(prevState => ({
       inputs: prevState.inputs.map(x =>
-        x.name === event.target.name
+        x.name === event.target.name && isValid
           ? Object.assign(x, {
               value: filename,
               isValid: isValid
@@ -388,7 +381,7 @@ class SignUp extends Component {
                 </div>
                 <div className="col col-12 col-md-6">
                   <ButtonInput
-                    name="cancel"
+                    name="clear"
                     type="button"
                     color="red"
                     onClick={this.clearForm}
@@ -404,6 +397,13 @@ class SignUp extends Component {
                   />
                 </div>
               </div>
+              <div className="row">
+                <div className="col">
+                  <div className="center-child">
+                    <Link to={"/signin"}>Sign in</Link>
+                  </div>
+                </div>
+              </div>
             </div>
           </form>
         </div>
@@ -412,5 +412,3 @@ class SignUp extends Component {
     );
   }
 }
-
-export default withRouter(SignUp);
