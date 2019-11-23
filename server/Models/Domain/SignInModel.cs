@@ -1,4 +1,4 @@
-namespace server.Models.Domain
+namespace Server.Models.Domain
 {
     public class SignInModel
     {

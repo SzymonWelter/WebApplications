@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using server.Models.Domain;
-using server.Models.DTO;
-using server.Models.Enums;
+using Server.Models.Domain;
+using Server.Models.DTO;
+using Server.Models.Enums;
 
-namespace server.Services.MapService
+namespace Server.Services.MapService
 {
     public class MapService : IMapService
     {

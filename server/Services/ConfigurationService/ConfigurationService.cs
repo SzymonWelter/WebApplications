@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Configuration;
 
-namespace server.Services.ConfigurationService
+namespace Server.Services.ConfigurationService
 {
     internal class ConfigurationService : IConfigurationService
     {

@@ -1,4 +1,4 @@
-namespace server.Models.DTO
+namespace Server.Models.DTO
 {
     public class SignInModelDTO
     {

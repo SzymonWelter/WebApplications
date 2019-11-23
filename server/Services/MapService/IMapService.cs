@@ -1,11 +1,11 @@
-﻿using server.Models.Domain;
-using server.Models.DTO;
+﻿using Server.Models.Domain;
+using Server.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace server.Services.MapService
+namespace Server.Services.MapService
 {
     public interface IMapService
     {

@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using server.Helpers;
-using server.Services.AuthorizationService;
-using server.Services.ConfigurationService;
-using server.Services.MapService;
-using server.Services.Repositories;
+using Server.Helpers;
+using Server.Services.AuthorizationService;
+using Server.Services.ConfigurationService;
+using Server.Services.MapService;
+using Server.Services.Repositories;
 
-namespace server
+namespace Server
 {
     public class Startup
     {

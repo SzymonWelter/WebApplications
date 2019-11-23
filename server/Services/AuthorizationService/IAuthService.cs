@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using server.Models.Domain;
+using Server.Models.Domain;
 
-namespace server.Services.AuthorizationService
+namespace Server.Services.AuthorizationService
 {
     public interface IAuthService
     {

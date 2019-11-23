@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
-using server.Models.Enums;
+using Server.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace server.Models.Domain
+namespace Server.Models.Domain
 {
     public class SignUpModel
     {

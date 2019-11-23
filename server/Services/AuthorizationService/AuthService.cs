@@ -4,11 +4,11 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
-using server.Models.Domain;
-using server.Services.ConfigurationService;
-using server.Services.Repositories;
+using Server.Models.Domain;
+using Server.Services.ConfigurationService;
+using Server.Services.Repositories;
 
-namespace server.Services.AuthorizationService
+namespace Server.Services.AuthorizationService
 {
     internal class AuthService : IAuthService
     {

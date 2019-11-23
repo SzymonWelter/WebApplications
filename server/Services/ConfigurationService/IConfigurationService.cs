@@ -1,6 +1,6 @@
 using System;
 
-namespace server.Services.ConfigurationService
+namespace Server.Services.ConfigurationService
 {
     public interface IConfigurationService
     {

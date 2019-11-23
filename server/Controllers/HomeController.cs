@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace server.Controllers
+namespace Server.Controllers
 {
     [Authorize]
     [ApiController]

@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using server.Models.DTO;
-using server.Services.AuthorizationService;
-using server.Services.MapService;
-using server.Services.Repositories;
+using Server.Models.DTO;
+using Server.Services.AuthorizationService;
+using Server.Services.MapService;
+using Server.Services.Repositories;
 
-namespace server.Controllers
+namespace Server.Controllers
 {
     [AllowAnonymous]
     [ApiController]

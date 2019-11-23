@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace server.Models.DTO
+namespace Server.Models.DTO
 {
     public class SignUpModelDTO
     {
