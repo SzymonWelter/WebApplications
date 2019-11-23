@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { TextInput, ButtonInput, SignInInputs } from "src/js/inputs";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
+import { authenticationService } from "src/js/services";
 
 export default class SignIn extends Component {
   constructor(props) {
     super(props);
+
+    if (authenticationService.currentUserValue) {
+      this.props.history.push("/");
+    }
     this.state = {
       loading: false,
       isValid: true,
@@ -14,24 +19,31 @@ export default class SignIn extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  async onSubmit() {}
+  async onSubmit(event) {
+    const login = event.target.login;
+    const password = event.target.password;
+    authenticationService.login(login, password).then(
+      user => {
+        const { prevLocation } = this.props.location.state || {
+          prevState: { pathname: "/" }
+        };
+        this.props.history.push(prevLocation);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
 
   activityInputHandler = event => {
-    let inputGroup = this.state.models;
-    let oldIndex = inputGroup.findIndex(x => x.isActive);
-    let newIndex = inputGroup.findIndex(x => x.name === event.target.name);
-
-    if (oldIndex !== -1) {
-      inputGroup[oldIndex].isActive = false;
-    }
-
-    if (event.type === "focus") {
-      inputGroup[newIndex].isActive = true;
-    }
-
-    this.setState({
-      models: inputGroup
-    });
+    event.persist();
+    this.setState(prevState => ({
+      models: prevState.models.map(x =>
+        Object.assign(x, {
+          isActive: x.name === event.target.name && event.type === "focus"
+        })
+      )
+    }));
   };
 
   onChange = event => {
@@ -84,7 +96,7 @@ export default class SignIn extends Component {
               </div>
               <div className="row">
                 <div className="col">
-                    <Link to={"/signup"}>Sign up</Link>
+                  <Link to={"/signup"}>Sign up</Link>
                 </div>
               </div>
             </div>

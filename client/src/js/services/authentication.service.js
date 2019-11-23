@@ -1,9 +1,10 @@
 import { BehaviorSubject } from 'rxjs';
 
 import config from 'config';
-import { handleResponse } from '@/_helpers';
+import { handleResponse } from 'src/js/helpers';
+import { cookieService } from './'
 
-const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
+const currentUserSubject = new BehaviorSubject(cookieService.getCookie('currentUser'));
 
 export const authenticationService = {
     login,
@@ -12,17 +13,21 @@ export const authenticationService = {
     get currentUserValue () { return currentUserSubject.value }
 };
 
-function login(username, password) {
+function login(login, password) {
+
+    const data = new FormData();
+    data.append("login", login);
+    data.append("password", password);
+
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body: data
     };
 
     return fetch(`${config.apiUrl}/user/authenticate`, requestOptions)
         .then(handleResponse)
         .then(result => {
-            localStorage.setItem('currentUser', JSON.stringify(result));
+            cookieService.setCookie('currentUser', JSON.stringify(result));
             currentUserSubject.next(result);
 
             return result;
@@ -30,6 +35,6 @@ function login(username, password) {
 }
 
 function logout() {
-    localStorage.removeItem('currentUser');
+    cookieService.removeCookie('currentUser');
     currentUserSubject.next(null);
 }

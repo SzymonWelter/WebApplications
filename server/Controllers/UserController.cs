@@ -40,8 +40,8 @@ namespace server.Controllers
             return Ok();
         }
 
-        [HttpPost("signin")]
-        public async Task<ActionResult<AuthenticationResultDTO>> SignIn([FromBody] SignInModelDTO signInModelDTO)
+        [HttpPost("authenticate")]
+        public async Task<ActionResult<AuthenticationResultDTO>> Authenticate([FromForm] SignInModelDTO signInModelDTO)
         {
             if (!ModelState.IsValid)
             {
