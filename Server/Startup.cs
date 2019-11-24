@@ -33,7 +33,7 @@ namespace Server
 
             services.AddDistributedRedisCache(options =>
             {
-                options.Configuration = "localhost";
+                options.Configuration = "redis";
                 options.InstanceName = "master";
             });
 
