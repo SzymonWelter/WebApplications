@@ -5,7 +5,7 @@ services:
   server:
     container_name: server
     build:
-      context: ./server
+      context: ./Server
       dockerfile: Dockerfile
     ports: 
       - "4000:80"
@@ -23,6 +23,7 @@ services:
       - NODE_ENV=Production
 
   redis:
+    container_name: redis
     image: "redis:alpine"
     ports:
       - "6379:6379"
