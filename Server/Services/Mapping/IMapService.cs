@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Server.Services.MapService
+namespace Server.Services.Mapping
 {
     public interface IMapService
     {
@@ -14,5 +14,6 @@ namespace Server.Services.MapService
         SignInModel Map(SignInModelDTO signInModel);
 
         AuthenticationResultDTO Map(AuthenticationResultModel authenticationResult);
+        UserFileModel Map(UserFileDTO userFileDTO);
     }
 }

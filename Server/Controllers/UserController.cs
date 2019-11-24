@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.Models.DTO;
-using Server.Services.AuthorizationService;
-using Server.Services.MapService;
+using Server.Services.Authorization;
+using Server.Services.Mapping;
 using Server.Services.Repositories;
 
 namespace Server.Controllers

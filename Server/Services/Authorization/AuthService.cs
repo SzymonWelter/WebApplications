@@ -7,22 +7,23 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Tokens;
 using Server.Models.Domain;
-using Server.Services.ConfigurationService;
+using Server.Services.Configuration;
 using Server.Services.Repositories;
 
-namespace Server.Services.AuthorizationService
+namespace Server.Services.Authorization
 {
     internal class AuthService : IAuthService
     {
         private readonly IConfigurationService _configurationService;
         private readonly IUsersRepository _usersRepository;
-        private readonly IDistributedCache _distributedCache;
+        private readonly ITokenService _tokenService;
 
-        public AuthService(IConfigurationService configurationService, IUsersRepository usersRepository, IDistributedCache distributedCache)
+
+        public AuthService(IConfigurationService configurationService, IUsersRepository usersRepository, ITokenService tokenService)
         {
             _configurationService = configurationService;
             _usersRepository = usersRepository;
-            _distributedCache = distributedCache;
+            _tokenService = tokenService;
         }
 
         public async Task<AuthenticationResultModel> Authenticate(SignInModel signinModel)
@@ -37,8 +38,8 @@ namespace Server.Services.AuthorizationService
                 return WrongPasswordResult();
             }
 
-            var token = GenerateToken(signinModel.Login);
-            await SaveToken(signinModel.Login, token);
+            var token = _tokenService.GenerateToken(signinModel.Login);
+            await _tokenService.SaveAsync(signinModel.Login, token);
 
             return SignInSuccessResult(token);
 
@@ -46,44 +47,7 @@ namespace Server.Services.AuthorizationService
 
         public async Task Logout(string token)
         {
-            var login = GetLoginFromToken(token);
-            await _distributedCache.RemoveAsync(login);
-        }
-
-        private string GetLoginFromToken(string token)
-        {
-            var handler = new JwtSecurityTokenHandler();
-            var decodedToken = handler.ReadToken(token) as JwtSecurityToken;
-            var login = decodedToken.Claims.First(claim => claim.Type == "unique_name").Value;
-            return login;
-        }
-
-        private async Task SaveToken(string key, string value)
-        {
-            await _distributedCache.SetAsync(
-                key,
-                Encoding.UTF8.GetBytes(value),
-                new DistributedCacheEntryOptions
-                {
-                    AbsoluteExpiration = _configurationService.GetTokenExpiration()
-                });
-        }
-
-        private string GenerateToken(string login)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configurationService.GetSecret());
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, login),
-                }),
-                Expires = _configurationService.GetTokenExpiration(),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            await _tokenService.RemoveAsync(token);
         }
 
         private async Task<bool> UserNotExists(string login)

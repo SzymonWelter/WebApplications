@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Server.Models.Domain;
 using Server.Models.DTO;
 using Server.Models.Enums;
 
-namespace Server.Services.MapService
+namespace Server.Services.Mapping
 {
     public class MapService : IMapService
     {
@@ -45,6 +46,15 @@ namespace Server.Services.MapService
                 Token = authenticationResult.Token
             };
             return result;
+        }
+
+        public UserFileModel Map(UserFileDTO userFileDTO)
+        {
+            var userFileModel = new UserFileModel();
+            userFileDTO.File.CopyTo(userFileModel.File);
+            userFileModel.FileName = userFileDTO.File.FileName;
+            userFileModel.ContentType = userFileDTO.File.ContentType;
+            return userFileModel;
         }
     }
 }

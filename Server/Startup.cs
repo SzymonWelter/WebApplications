@@ -4,9 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Server.Helpers;
-using Server.Services.AuthorizationService;
-using Server.Services.ConfigurationService;
-using Server.Services.MapService;
+using Server.Services.Authorization;
+using Server.Services.Configuration;
+using Server.Services.Mapping;
 using Server.Services.Repositories;
 
 namespace Server
