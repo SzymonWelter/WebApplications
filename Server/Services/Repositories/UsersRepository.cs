@@ -9,7 +9,7 @@ namespace Server.Services.Repositories
 {
     internal class UsersRepository : IUsersRepository
     {
-        private readonly List<SignUpModel> users = new List<SignUpModel>();
+        private readonly List<SignUpModel> users = new List<SignUpModel> { new SignUpModel { Login="test", Password="test"} };
         private void Add(SignUpModel user)
         {
             users.Add(user);

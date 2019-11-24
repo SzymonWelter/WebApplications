@@ -25,6 +25,7 @@ namespace Server.Services.Authorization
 
         public string GetLoginFromToken(string token)
         {
+            token = token.Split(" ")[1];
             var handler = new JwtSecurityTokenHandler();
             var decodedToken = handler.ReadToken(token) as JwtSecurityToken;
             var login = decodedToken.Claims.First(claim => claim.Type == "unique_name").Value;

@@ -25,13 +25,22 @@ namespace Server.Controllers
             _blobStorageService = blobStorageService;
         }
         [HttpPost]
-        public async Task<ActionResult> UploadFile(UserFileDTO userFileDTO)
+        public async Task<ActionResult> UploadFile([FromForm]UserFileDTO userFileDTO)
         {
             var userFile = _mapService.Map(userFileDTO);
             userFile.Login = _tokenService.GetLoginFromToken(Request.Headers["Authorization"].ToString());
 
             await _blobStorageService.CreateBlob(userFile);
+            userFile.File.Dispose();
+
             return Ok();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<string []>> GetFilesNames(){
+            string login = _tokenService.GetLoginFromToken(Request.Headers["Authorization"].ToString());
+            var filesNames = await _blobStorageService.GetFilesNames(login);
+            return Ok(filesNames);
         }
     }
 }

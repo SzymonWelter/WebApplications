@@ -2,6 +2,8 @@
 using Microsoft.WindowsAzure.Storage.Blob;
 using Server.Models.Domain;
 using Server.Services.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Server.Services.Contexts
@@ -30,6 +32,20 @@ namespace Server.Services.Contexts
 
             await cloudBlockBlob.UploadFromStreamAsync(userFile.File);
 
+        }
+
+        public async Task<string[]> GetFilesNames(string login)
+        {
+            var cloudBlobContainer = _blobClient.GetContainerReference(login);
+            BlobResultSegment segment = await cloudBlobContainer.ListBlobsSegmentedAsync(null);
+            List<IListBlobItem> list = new List<IListBlobItem>();
+            list.AddRange(segment.Results);
+            while (segment.ContinuationToken != null)
+            {
+                segment = await _blobClient.ListBlobsSegmentedAsync(login, segment.ContinuationToken);
+                list.AddRange(segment.Results);
+            }
+            return list.OfType<CloudBlockBlob>().Select(b => b.Name).ToArray();
         }
     }
 }

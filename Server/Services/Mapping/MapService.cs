@@ -50,7 +50,10 @@ namespace Server.Services.Mapping
 
         public UserFileModel Map(UserFileDTO userFileDTO)
         {
-            var userFileModel = new UserFileModel();
+            var userFileModel = new UserFileModel
+            {
+                File = new MemoryStream()
+            };
             userFileDTO.File.CopyTo(userFileModel.File);
             userFileModel.FileName = userFileDTO.File.FileName;
             userFileModel.ContentType = userFileDTO.File.ContentType;

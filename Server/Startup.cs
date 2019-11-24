@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Server.Helpers;
 using Server.Services.Authorization;
 using Server.Services.Configuration;
+using Server.Services.Contexts;
 using Server.Services.Mapping;
 using Server.Services.Repositories;
 
@@ -26,15 +27,17 @@ namespace Server
             services.AddControllers();
 
             services.AddSingleton<IUsersRepository, UsersRepository>();
+            services.AddSingleton<IBlobStorageService,BlobStorageService>();
 
             services.AddTransient<IMapService, MapService>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IConfigurationService, ConfigurationService>();
+            services.AddTransient<ITokenService,TokenService>();
 
             services.AddDistributedRedisCache(options =>
             {
-                options.Configuration = "redis";
-                options.InstanceName = "master";
+                options.Configuration = Configuration["Redis:Domain"];
+                options.InstanceName = Configuration["Redis:InstanceName"];
             });
 
             services.AddJwtAuthorization(Configuration);

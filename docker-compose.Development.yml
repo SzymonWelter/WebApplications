@@ -30,7 +30,7 @@ services:
   
   storage:
     container_name: storage
-    image: "microsoft/azure-storage-emulator"
+    image: "microsoft/arafato/azurite"
     ports:
       - "10000:10000"
       - "10001:10001"
