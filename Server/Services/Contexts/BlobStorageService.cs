@@ -26,16 +26,11 @@ namespace Server.Services.Contexts
             {
                 await cloudBlobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob }).ConfigureAwait(false);
             }
-
             var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(userFile.FileName);
 
             cloudBlockBlob.Properties.ContentType = userFile.ContentType;
 
             await cloudBlockBlob.UploadFromStreamAsync(userFile.File).ConfigureAwait(false);
-
-            var stream = new MemoryStream();
-            await cloudBlockBlob.DownloadToStreamAsync(stream).ConfigureAwait(false);
-
         }
 
         public async Task<MemoryStream> GetFile(string login, string name)
@@ -44,6 +39,7 @@ namespace Server.Services.Contexts
             var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(name);
             var stream = new MemoryStream();
             await cloudBlockBlob.DownloadToStreamAsync(stream).ConfigureAwait(false);
+            stream.Seek(0, SeekOrigin.Begin);
             return stream;
         }
 

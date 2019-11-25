@@ -51,7 +51,7 @@ namespace Server.Controllers
         {
             var login = _tokenService.GetLoginFromHeader(Request.Headers["Authorization"].ToString());
             var file = await _blobStorageService.GetFile(login, name);
-            
+
             return File(file, "application/octet-stream");
         }
 

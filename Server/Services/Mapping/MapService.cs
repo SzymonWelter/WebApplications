@@ -55,6 +55,7 @@ namespace Server.Services.Mapping
                 File = new MemoryStream()
             };
             userFileDTO.File.CopyTo(userFileModel.File);
+            userFileModel.File.Seek(0, SeekOrigin.Begin);
             userFileModel.FileName = userFileDTO.File.FileName;
             userFileModel.ContentType = userFileDTO.File.ContentType;
             return userFileModel;

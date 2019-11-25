@@ -1,19 +1,13 @@
 import React, { Component } from "react";
 import {filesService, authenticationService} from 'src/js/services';
 import {File} from './'
-import { FileInput, InputModel } from "src/js/inputs";
 
 export class Home extends Component {
   
   constructor(props){
     super(props);
     this.state = {
-      files: [],
-      fileinput: new InputModel(
-        "File",
-        "file",
-        "File must be in pdf format"
-      )
+      files: []
     }
   }
 
@@ -49,7 +43,6 @@ export class Home extends Component {
   }
 
   remove = async (event) => {
-    console.log(event.target);
     const name = event.target.name;
     await filesService.remove(name);
     this.componentDidMount();
