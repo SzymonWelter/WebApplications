@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {filesService} from 'src/js/services';
+import {filesService, authenticationService} from 'src/js/services';
 import {File} from './'
 import { FileInput, InputModel } from "src/js/inputs";
 
@@ -55,6 +55,11 @@ export class Home extends Component {
     this.componentDidMount();
   }
 
+  logout = (e) => {
+    authenticationService.logout();
+    localtion.reload(true);
+  }
+
   componentDidMount(){
     filesService.filesNames().then(result => { 
       this.setState({files: result});
@@ -66,6 +71,7 @@ export class Home extends Component {
       <div>        
         <div>
             <h1>Home page</h1>
+            <button onClick={this.logout}>LogOut</button>
         </div>
         <form className="home-form" onSubmit={this.upload}>
           <input type="file" name="file"/>
