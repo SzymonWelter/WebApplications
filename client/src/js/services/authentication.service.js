@@ -39,7 +39,7 @@ function login(login, password) {
         .add(5, "minutes")
         .toDate();
       cookieService.setCookie("currentUser", result.token, date);
-      currentUserSubject.next(result);
+      currentUserSubject.next(result.token);
       return result;
     });
 }

@@ -30,14 +30,6 @@ $form-min-width: 300px;
   }
 }
 
-.modal {
-  display: inherit;
-  &--success {
-  }
-  &--error {
-  }
-}
-
 @keyframes slide {
   from{
     top: 0;

@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import { InputModel } from "./";
 
 export class FileInput extends Component {
   constructor(props) {
@@ -36,7 +34,7 @@ export class FileInput extends Component {
     return (
       <div className="mt-3 input-wrapper input-wrapper--transparent">
         <input
-          type={this.state.model.type.toLowerCase()}
+          type="file"
           onChange={this.props.onChange}
           className="input input--file"
           name={this.state.model.name}

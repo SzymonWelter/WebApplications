@@ -34,6 +34,7 @@ export default class SignIn extends Component {
           from: { pathname: "/" }
         };
         this.reset();
+        setTimeout(() => {},  1000);
         this.props.history.push(from);
       },
       error => {

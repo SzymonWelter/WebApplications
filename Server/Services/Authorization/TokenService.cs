@@ -23,13 +23,10 @@ namespace Server.Services.Authorization
             _distributedCache = distributedCache;
         }
 
-        public string GetLoginFromToken(string token)
+        public string GetLoginFromHeader(string header)
         {
-            token = token.Split(" ")[1];
-            var handler = new JwtSecurityTokenHandler();
-            var decodedToken = handler.ReadToken(token) as JwtSecurityToken;
-            var login = decodedToken.Claims.First(claim => claim.Type == "unique_name").Value;
-            return login;
+            var token = header.Split(" ")[1];
+            return GetLoginFromToken(token);
         }
 
         public async Task SaveAsync(string login, string token)
@@ -62,8 +59,16 @@ namespace Server.Services.Authorization
 
         public async Task RemoveAsync(string token)
         {
-            var login = GetLoginFromToken(token);
+            var login = GetLoginFromHeader(token);
             await _distributedCache.RemoveAsync(login);
+        }
+
+        public string GetLoginFromToken(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var decodedToken = handler.ReadToken(token) as JwtSecurityToken;
+            var login = decodedToken.Claims.First(claim => claim.Type == "unique_name").Value;
+            return login;
         }
     }
 }
