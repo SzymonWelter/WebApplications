@@ -1,6 +1,5 @@
-import { authenticationService } from "./authentication.service"
-import config from 'config'
-
+import { authenticationService } from "./authentication.service";
+import config from 'config';
 export const filesService = {
     filesNames,
     upload,
@@ -17,7 +16,7 @@ async function filesNames(){
             'Authorization': 'Bearer ' + token
         }
     }
-    const response = await fetch(`${config.apiUrl}/files`,requestOptions)
+    const response = await fetch(`${config.apiUrl}/files`,requestOptions);
     if(!response.ok){
         throw new Error("Can not connect with server");
     }
@@ -65,7 +64,6 @@ async function remove(name){
         }
     }
     const url = `${config.apiUrl}/files/${name}`;
-    console.log(url);
     const response = await fetch(url,requestOptions);
     if(!response.ok){
         throw new Error("Can not connect with server");

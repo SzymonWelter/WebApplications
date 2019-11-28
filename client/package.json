@@ -4,9 +4,8 @@
   "description": "Simple client application with log in form",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js --mode production",
-    "start": "webpack-dev-server --config webpack.config.js --mode development",
-    "docker-dev": "docker run -d -p 8080:80 -v \"${PWD}/dist:/usr/local/apache2/htdocs/\" httpd:latest"
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack-dev-server --config webpack.config.js --mode development"
   },
   "keywords": [],
   "author": "SzymonWelter",

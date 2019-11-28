@@ -34,11 +34,15 @@ function login(login, password) {
       if (!result.isSuccess) {
         throw new Error(result.message);
       }
-      const date = moment()
-        .local()
+      const expirationDate = moment()
         .add(5, "minutes")
-        .toDate();
-      cookieService.setCookie("currentUser", result.token, date);
+        .utc()
+        .format("YYYY-MM-DDThh:mm:ss");
+      cookieService.setCookie(
+        "currentUser",
+        result.token,
+        new Date(expirationDate)
+      );
       currentUserSubject.next(result.token);
       return result;
     });
