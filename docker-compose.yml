@@ -7,7 +7,7 @@ services:
     build:
       context: ./Server
       dockerfile: Dockerfile
-    ports: 
+    ports:
       - "4000:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
