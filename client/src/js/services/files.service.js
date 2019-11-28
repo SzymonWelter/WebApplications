@@ -1,4 +1,5 @@
 import { authenticationService } from "./authentication.service";
+import { authHeader } from "src/js/helpers"
 import config from 'config';
 export const filesService = {
     filesNames,
@@ -9,11 +10,10 @@ export const filesService = {
 
 async function filesNames(){
 
-    const token = authenticationService.currentUserValue;
     const requestOptions = {
         method: 'GET',
         headers:{
-            'Authorization': 'Bearer ' + token
+            "Authorization": authHeader().Authorization
         }
     }
     const response = await fetch(`${config.apiUrl}/files`,requestOptions);

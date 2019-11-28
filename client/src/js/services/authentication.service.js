@@ -34,18 +34,19 @@ function login(login, password) {
       if (!result.isSuccess) {
         throw new Error(result.message);
       }
-      const expirationDate = moment()
-        .add(5, "minutes")
-        .utc()
-        .format("YYYY-MM-DDThh:mm:ss");
+      const expirationDate = getExpirationDate(5);
       cookieService.setCookie(
         "currentUser",
         result.token,
-        new Date(expirationDate)
+        expirationDate
       );
       currentUserSubject.next(result.token);
       return result;
     });
+}
+
+function getExpirationDate(minutes){
+  return new Date(new Date().getTime() + 1000 * 60 * minutes);
 }
 
 function logout() {

@@ -1,0 +1,30 @@
+.main-navbar{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    background-color: white;
+    padding: 10px;
+    border-bottom: 1px solid rgba(119, 119, 119, 0.466);
+
+    &__list{
+        margin: 0;
+        flex-grow: 1;
+    }
+    &__item{
+        display: inline-block;
+    }
+    &__button{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        padding: 5px;
+        font-size: 15px;
+        font-weight: 500;
+        border-radius: 20px;
+        font-family: "Lato","proxima-nova","Helvetica Neue",Arial,sans-serif;
+        text-transform: uppercase;
+        background-color: rgba(#ffffff, 0);
+        color: blue;
+    }
+}

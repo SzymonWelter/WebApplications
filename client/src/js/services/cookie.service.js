@@ -5,7 +5,7 @@ export const cookieService = {
 }
 
 function setCookie(name, value, expiration){
-    document.cookie = name + "=" + value + ";path=/;expires=" + expiration;
+    document.cookie = name + "=" + value + ";path=/;expires=" + expiration.toGMTString();
 }
 
 function getCookie(name){

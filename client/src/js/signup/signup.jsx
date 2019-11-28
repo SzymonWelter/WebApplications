@@ -280,7 +280,6 @@ export default class SignUp extends Component {
     let isValid = true;
     for (let i of inputs) {
       if (i.value.length === 0) {
-        console.log(i);
         isValid = false;
         this.setState(prevState => ({
           inputs: prevState.inputs.map(x =>

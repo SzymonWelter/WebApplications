@@ -1,0 +1,47 @@
+.files-list {
+  padding: 50px;
+  width: 100%;
+  list-style: none;
+  position: relative;
+
+  &__item {
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  }
+}
+
+.file-tile {
+  border: none;
+  background-color: rgba($color: #ffffff, $alpha: 0);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 100px;
+
+  &:hover {
+    background-color: rgba(161, 161, 161, 0.527);
+  }
+  &__wrapper {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__remove-button {
+    width: 60px;
+    height: 60px;
+    border: none;
+    background-color: rgba(255, 0, 0, 0.37);
+    vertical-align: middle;
+    color: white;
+    font-size: x-large;
+    text-align: center;
+    border-radius: 100%;
+
+    &:hover {
+      background-color: red;
+      vertical-align: bottom;
+    }
+  }
+}

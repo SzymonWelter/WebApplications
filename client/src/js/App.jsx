@@ -6,6 +6,7 @@ import { history } from "src/js/helpers";
 import { PrivateRoute } from "src/js/routing/PrivateRoute";
 import { Home }from "src/js/home"
 import { authenticationService } from  'src/js/services'
+import { MainNavbar } from "./navbar";
 
 export default class App extends Component {
   constructor(props) {
@@ -30,8 +31,8 @@ export default class App extends Component {
   render() {
     return (
       <Router history={history}>
-        {this.state.currentUser && <h1>It will be navigation bar here</h1>}
-        <Switch>        
+        {this.state.currentUser && <MainNavbar/>}
+        <Switch>
           <PrivateRoute exact path="/" component={Home}></PrivateRoute>
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
