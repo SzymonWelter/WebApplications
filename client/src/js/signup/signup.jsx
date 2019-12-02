@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from "./modal";
+import config from "config";
 import {
   InputModel,
   RadioInput,
@@ -11,7 +12,7 @@ import {
   SignUpInputs
 } from "src/js/inputs";
 
-export default class SignUp extends Component {
+export class SignUp extends Component {
   constructor() {
     super();
 
@@ -59,7 +60,7 @@ export default class SignUp extends Component {
     this.onChange(event);
 
     var response = await fetch(
-      "http://localhost:4000/user/login/exists?login=" + event.target.value
+      `${config.apiUrl}/user/login/exists?login=${event.target.value}`
     );
     var result = await response.json();
     this.setState(prevState => ({

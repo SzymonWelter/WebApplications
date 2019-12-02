@@ -18,7 +18,7 @@ export class MainNavbar extends Component {
             <li className="main-navbar__item"></li>
             <li className="main-navbar__item"></li>
         </ul>
-        <button onClick={this.logout} className="main-navbar__button main-navbar__button--black">Sign out</button>
+        <button onClick={this.logout} className="main-navbar__button main-navbar__button--red">Sign out</button>
       </nav>
     );
   }

@@ -1,5 +1,4 @@
 import { BehaviorSubject } from "rxjs";
-import * as moment from "moment";
 
 import config from "config";
 import { handleResponse } from "src/js/helpers";
@@ -12,6 +11,7 @@ const currentUserSubject = new BehaviorSubject(
 export const authenticationService = {
   login,
   logout,
+  renewToken,
   currentUser: currentUserSubject.asObservable(),
   get currentUserValue() {
     return currentUserSubject.value;
@@ -30,6 +30,7 @@ function login(login, password) {
 
   return fetch(`${config.apiUrl}/user/authenticate`, requestOptions)
     .then(handleResponse)
+    .then(result => result.json())
     .then(result => {
       if (!result.isSuccess) {
         throw new Error(result.message);
@@ -43,6 +44,16 @@ function login(login, password) {
       currentUserSubject.next(result.token);
       return result;
     });
+}
+
+function renewToken(token){
+  const expirationDate = getExpirationDate(5);
+  cookieService.setCookie(
+    "currentUser",
+    token,
+    expirationDate
+  );
+  currentUserSubject.next(token);
 }
 
 function getExpirationDate(minutes){

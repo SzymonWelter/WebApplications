@@ -30,7 +30,7 @@ module.exports = {
       {
         test: /\.s?(c|a)ss$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          "style-loader",
           "css-loader",
           "sass-loader",
           "postcss-loader"
@@ -53,7 +53,7 @@ module.exports = {
   ],
   externals: {
     config: JSON.stringify({
-      apiUrl: 'https://szw-web-server.azurewebsites.net'
+      apiUrl: 'http://localhost:4000'
     })
   }
 };

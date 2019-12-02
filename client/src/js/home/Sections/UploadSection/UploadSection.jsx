@@ -11,7 +11,6 @@ export class UploadSection extends Component {
 
   upload = async e => {
     e.preventDefault();
-
     const formData = new FormData();
     formData.append("file", e.target.file.files[0]);
 
@@ -29,8 +28,8 @@ export class UploadSection extends Component {
     return (
       <section className="home__upload-section">
         <form className="home-form" onSubmit={this.upload}>
-          <input type="file" name="file" />
-          <input type="submit" value="upload" />
+          <input type="file" name="file" accept="application/pdf" />
+          <input type="submit" value="upload" className="home-form__submit" />
         </form>
         {this.state.loading && <label>Loading...</label>}
       </section>

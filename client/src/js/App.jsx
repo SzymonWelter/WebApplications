@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Router, Switch, Route } from "react-router-dom";
-import SignUp from "./signup/signup";
-import SignIn from "./signin/signin";
+import { SignUp } from "./signup/signup";
+import { SignIn } from "./signin/signin";
 import { history } from "src/js/helpers";
 import { PrivateRoute } from "src/js/routing/PrivateRoute";
 import { Home }from "src/js/home"
@@ -11,7 +11,6 @@ import { MainNavbar } from "./navbar";
 export default class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       currentUser: null
     };

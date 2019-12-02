@@ -4,7 +4,7 @@ import { Error } from "./";
 import { Link } from "react-router-dom";
 import { authenticationService } from "src/js/services";
 
-export default class SignIn extends Component {
+export class SignIn extends Component {
   constructor(props) {
     super(props);
 
@@ -34,7 +34,6 @@ export default class SignIn extends Component {
           from: { pathname: "/" }
         };
         this.reset();
-        setTimeout(() => {},  1000);
         this.props.history.push(from);
       },
       error => {
