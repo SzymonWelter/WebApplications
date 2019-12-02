@@ -31,14 +31,6 @@ $form-min-width: 300px;
   }
 }
 
-.modal {
-  display: inherit;
-  &--success {
-  }
-  &--error {
-  }
-}
-
 @keyframes fall {
   from {
     top: 30%;

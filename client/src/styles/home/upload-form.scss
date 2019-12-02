@@ -1,0 +1,14 @@
+.home-form{
+    &__submit{
+        background-color: rgba(0, 128, 0, 0.747);
+        border: none;
+        border-radius: 1rem;
+        padding: 15px;
+        color: white;
+
+        &:focus, &:hover{
+            background-color: rgba(6, 77, 6, 0.753);
+            outline: none;
+        }
+    }
+}

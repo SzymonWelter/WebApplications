@@ -18,7 +18,8 @@
         justify-content: center;
         align-items: center;
         border: none;
-        padding: 5px;
+        padding: 10px;
+        margin: 1px;
         font-size: 15px;
         font-weight: 500;
         border-radius: 20px;
@@ -26,5 +27,16 @@
         text-transform: uppercase;
         background-color: rgba(#ffffff, 0);
         color: blue;
+
+        &--red{
+            background-color: red;
+            color: white;
+            &:focus, &:hover{
+                background-color: rgb(155, 0, 0);
+                padding: 11px;
+                margin: 0px;
+                outline: none;
+            }
+        }
     }
 }
