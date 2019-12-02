@@ -33,7 +33,6 @@ namespace Server.Helpers
                         ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero
                     };
-                        
                 });
         }
     }

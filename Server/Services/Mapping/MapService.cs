@@ -56,7 +56,7 @@ namespace Server.Services.Mapping
             };
             userFileDTO.File.CopyTo(userFileModel.File);
             userFileModel.File.Seek(0, SeekOrigin.Begin);
-            userFileModel.FileName = userFileDTO.File.FileName;
+            userFileModel.FileName =Path.GetFileName(userFileDTO.File.FileName);
             userFileModel.ContentType = userFileDTO.File.ContentType;
             return userFileModel;
         }
