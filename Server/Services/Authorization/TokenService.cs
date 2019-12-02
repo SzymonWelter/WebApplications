@@ -1,13 +1,14 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.IdentityModel.Tokens;
-using Server.Services.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Primitives;
+using Microsoft.IdentityModel.Tokens;
+using Server.Services.Configuration;
 
 namespace Server.Services.Authorization
 {
@@ -25,8 +26,20 @@ namespace Server.Services.Authorization
 
         public string GetLoginFromHeader(string header)
         {
-            var token = header.Split(" ")[1];
-            return GetLoginFromToken(token);
+            try
+            {
+                string token = GetTokenFromHeader(header);
+                return GetLoginFromToken(token);
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        public string GetTokenFromHeader(string header)
+        {
+            return header.Split(" ") [1];
         }
 
         public async Task SaveAsync(string login, string token)
@@ -48,13 +61,21 @@ namespace Server.Services.Authorization
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, login),
+                new Claim(ClaimTypes.Name, login),
                 }),
                 Expires = _configurationService.GetTokenExpiration(),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public async Task<string> RenewToken(string header)
+        {
+            var login = GetLoginFromHeader(header);
+            var token = GenerateToken(login);
+            await SaveAsync(login, token);
+            return token;
         }
 
         public async Task RemoveAsync(string token)

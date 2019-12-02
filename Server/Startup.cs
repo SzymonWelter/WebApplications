@@ -9,6 +9,8 @@ using Server.Services.Configuration;
 using Server.Services.Contexts;
 using Server.Services.Mapping;
 using Server.Services.Repositories;
+using Microsoft.OpenApi.Models;
+
 
 namespace Server
 {
@@ -34,13 +36,16 @@ namespace Server
             services.AddTransient<IConfigurationService, ConfigurationService>();
             services.AddTransient<ITokenService,TokenService>();
 
-            services.AddDistributedRedisCache(options =>
+            services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = Configuration["Redis:Domain"];
-                options.InstanceName = Configuration["Redis:InstanceName"];
+                options.Configuration = Configuration["Redis:ConnectionString"];
             });
 
             services.AddJwtAuthorization(Configuration);
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "szw-web-server api", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +55,7 @@ namespace Server
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
 
             app.UseRouting();
 
