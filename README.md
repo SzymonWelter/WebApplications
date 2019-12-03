@@ -6,6 +6,5 @@
 3. When application is ready go here: [http://localhost:5000](http://localhost:5000)
 
 ## Application on Azure
-For now there is only backend available here: [szw-web-server](https://szw-web-server.azurewebsites.net/swagger/v1/swagger.json)
-Client app will be deployed soon
+Application is available [here](https://szw-web-client.azurewebsites.net)
 
