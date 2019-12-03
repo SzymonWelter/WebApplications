@@ -244,7 +244,7 @@ export class SignUp extends Component {
     data.append("sex", form.sex.value);
     data.append("photo", form.photo.files[0]);
 
-    var response = await fetch("http://localhost:4000/user/signup", {
+    var response = await fetch(`${config.apiUrl}/user/signup`, {
       method: "POST",
       body: data
     });

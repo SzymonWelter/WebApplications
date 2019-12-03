@@ -53,7 +53,7 @@ module.exports = {
   ],
   externals: {
     config: JSON.stringify({
-      apiUrl: 'https://szw-web-server.azurewebsites.net'
+      apiUrl: "https://szw-web-server.azurewebsites.net"
     })
   }
 };
