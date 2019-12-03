@@ -6,7 +6,6 @@
 
   &__item {
     display: block;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -17,11 +16,13 @@
   overflow: hidden;
   white-space: nowrap;
   flex-grow: 1;
-  padding: 10px;
-  border-radius: 100px;
+  height: 50px;
+  font-size: 16px;
+  transition: font-size 0.3s ease;
 
   &:hover {
-    background-color: rgba(161, 161, 161, 0.527);
+    background-color: rgba(21, 15, 222, 0.1);
+    font-size: 20px;
   }
   &__wrapper {
     display: flex;
@@ -29,19 +30,20 @@
   }
 
   &__remove-button {
-    width: 60px;
-    height: 60px;
+    width: 30px;
+    height: 30px;
+    margin: 10px;
     border: none;
-    background-color: rgba(255, 0, 0, 0.37);
-    vertical-align: middle;
-    color: white;
-    font-size: x-large;
-    text-align: center;
-    border-radius: 100%;
+    background-image: url("../assets/red-cross.png");
+    background-size: cover;
+    background-color: rgba($color: #ffffff, $alpha: 0);
+    transition: width 0.2s ease, height 0.2s ease, margin 0.2s ease;
 
+    &:focus,
     &:hover {
-      background-color: red;
-      vertical-align: bottom;
+      width: 40px;
+      height: 40px;
+      margin: 5px;
     }
   }
 }
