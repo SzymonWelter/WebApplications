@@ -1,0 +1,25 @@
+$max-width: 1000px;
+$input-height: 80px;
+.input {
+  &-wrapper {
+    @media only screen and (max-width: $max-width) {
+      margin: 10px;
+      height: $input-height;
+    }
+  }
+  &-placeholder {
+    @media only screen and (max-width: $max-width) {
+      font-size: 30px;
+    }
+  }
+  &--text {
+    @media only screen and (max-width: $max-width) {
+      height: 100%;
+    }
+  }
+  &--button{
+    @media only screen and (max-width: $max-width) {
+      font-size: 30px;
+    }
+  }
+}
