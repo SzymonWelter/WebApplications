@@ -40,7 +40,7 @@ export class FileInput extends Component {
           name={this.state.model.name}
           accept="image/*"
         />
-        <div className="input--file-wrapper">
+        <div className="input--file-wrapper center-child">
           <label>Choose file</label>
           <div className="input--file-label">
             { this.state.model.value }

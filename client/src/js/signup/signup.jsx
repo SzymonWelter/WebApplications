@@ -317,14 +317,14 @@ export class SignUp extends Component {
             <header className="sign-up-form__header">Sign up</header>
             <div className="container">
               <div className="row">
-                <div className="col col-12 col-md-6">
+                <div className="col col-12 col-lg-6">
                   <TextInput
                     model={this.state.inputs[0]}
                     onChange={this.onChange}
                     onActivity={this.activityInputHandler}
                   />
                 </div>
-                <div className="col col-12 col-md-6">
+                <div className="col col-12 col-lg-6">
                   <TextInput
                     model={this.state.inputs[1]}
                     onChange={this.onChange}
@@ -338,48 +338,48 @@ export class SignUp extends Component {
                     onActivity={this.activityInputHandler}
                   />
                 </div>
-                <div className="col col-12 col-md-6">
+                <div className="col col-12 col-lg-6">
                   <TextInput
                     model={this.state.inputs[3]}
                     onChange={this.onChangePassword}
                     onActivity={this.activityInputHandler}
                   />
                 </div>
-                <div className="col col-12 col-md-6">
+                <div className="col col-12 col-lg-6">
                   <TextInput
                     model={this.state.inputs[4]}
                     onChange={this.onChangeConfirmPassword}
                     onActivity={this.activityInputHandler}
                   />
                 </div>
-                <div className="col col-12 col-md-6">
+                <div className="col col-12 col-lg-6">
                   <DateInput
                     model={this.state.inputs[5]}
                     onChange={this.onChangeDate}
                     onActivity={this.activityInputHandler}
                   />
                 </div>
-                <div className="col col-12 col-md-6">
+                <div className="col col-12 col-lg-6">
                   <TextInput
                     model={this.state.inputs[6]}
                     onChange={this.onChangePesel}
                     onActivity={this.activityInputHandler}
                   />
                 </div>
-                <div className="col col-12 col-md-6">
+                <div className="col col-12 col-lg-6">
                   <RadioInput
                     model={this.state.inputs[7]}
                     onChange={this.onChange}
                   />
                 </div>
-                <div className="col col-12 col-md-6">
+                <div className="col col-12 col-lg-6">
                   <FileInput
                     model={this.state.inputs[8]}
                     onChange={this.onChangePhoto}
                     onActivity={this.activityInputHandler}
                   />
                 </div>
-                <div className="col col-12 col-md-6">
+                <div className="col col-6">
                   <ButtonInput
                     name="clear"
                     type="button"
@@ -387,7 +387,7 @@ export class SignUp extends Component {
                     onClick={this.clearForm}
                   />
                 </div>
-                <div className="col col-12 col-md-6">
+                <div className="col col-6 col-6">
                   <ButtonInput
                     name="sign up"
                     type="submit"
@@ -398,7 +398,7 @@ export class SignUp extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col col-12">
                   <div className="center-child">
                     <Link to={"/signin"}>Sign in</Link>
                   </div>
