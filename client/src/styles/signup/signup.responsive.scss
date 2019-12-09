@@ -12,10 +12,14 @@ $max-width: 1000px;
     font-size: 40px;
   }
   & input{
+    @media only screen and (max-width: $max-width) {
       font-size: 40px;
+    }
   }
 
   & button{
+    @media only screen and (max-width: $max-width) {
       width: 100%;
+    }
   }
 }
