@@ -8,4 +8,9 @@ $max-width: 1000px;
       font-size: 90px;
     }
   }
+  & input {
+    @media only screen and (max-width: $max-width) {
+      font-size: 40px;
+    }
+  }
 }
