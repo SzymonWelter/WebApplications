@@ -1,0 +1,27 @@
+$max-width: 1000px;
+
+.file-tile {
+  @media only screen and (max-width: $max-width) {
+    height: 100px;
+    font-size: 40px;
+  }
+  &:hover {
+    @media only screen and (max-width: $max-width) {
+      font-size: 45px;
+    }
+  }
+
+  &__remove-button {
+    @media only screen and (max-width: $max-width) {
+      width: 55px;
+      height: 50px;
+      margin: 25px 0;
+      &:focus,
+      &:hover {
+        width: 55px;
+        height: 50px;
+        margin: 25px 0;
+      }
+    }
+  }
+}

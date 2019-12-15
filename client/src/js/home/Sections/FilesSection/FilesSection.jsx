@@ -48,12 +48,11 @@ export class FilesSection extends Component {
         <div className="container">
           <ul className="files-list">
             {this.state.files.map((file, index) => (
-              <li className="files-list__item">
+              <li className="files-list__item" key={index}>
                 <FileTile
                   name={file}
                   onClick={this.download}
                   onRemove={this.remove}
-                  key={index}
                 />
               </li>
             ))}
