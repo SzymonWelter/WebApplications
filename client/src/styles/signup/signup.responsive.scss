@@ -22,4 +22,10 @@ $max-width: 1000px;
       width: 100%;
     }
   }
+
+  & .input-label-error{
+    @media only screen and (max-width: $max-width) {
+      font-size: 25px;
+    }
+  }
 }
