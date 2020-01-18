@@ -17,7 +17,7 @@ namespace Server.Models.Domain
         public DateTime Birthday { get; set; }
         public string Pesel { get; set; }
         public Sex Sex { get; set; }
-        public IFormFile Photo { get; set; }
+        public UserFileModel Photo { get; set; }
 
     }
 }

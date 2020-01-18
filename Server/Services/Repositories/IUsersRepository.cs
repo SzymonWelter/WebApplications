@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Server.Models.Domain;
-using Server.Models.DTO;
+using Server.Models.DAL;
 
 namespace Server.Services.Repositories
 {
     public interface IUsersRepository
     {
-        Task AddAsync(SignUpModel user);
-        Task<bool> ExistsAsync(Predicate<SignUpModel> condition);
+        Task AddAsync(UserDAL user, FileDAL photo);
+        Task<bool> ExistsAsync(Func<UserDAL,bool> condition);
+        Task<string> GetUserId(string username);
         Task<bool> ExistsLoginAsync(string login);
-        Task<string> GetPasswordAsync(string login);
+        Task<bool> PasswordIsValid(string username, string password );
     }
 }

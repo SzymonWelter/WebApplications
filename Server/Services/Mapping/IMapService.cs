@@ -1,4 +1,5 @@
-﻿using Server.Models.Domain;
+﻿using Server.Models.DAL;
+using Server.Models.Domain;
 using Server.Models.DTO;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,8 @@ namespace Server.Services.Mapping
 
         AuthenticationResultDTO Map(AuthenticationResultModel authenticationResult);
         UserFileModel Map(UserFileDTO userFileDTO);
+        UserDAL Map(SignUpModel signUpModel);
+        FileDAL Map(UserFileModel userFile);
+        UserFileModel Map(FileDAL fileDAL);
     }
 }

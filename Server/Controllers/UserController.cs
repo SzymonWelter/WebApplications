@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.Models.DTO;
+using Server.Services;
 using Server.Services.Authorization;
 using Server.Services.Mapping;
-using Server.Services.Repositories;
 
 namespace Server.Controllers
 {
@@ -14,13 +14,13 @@ namespace Server.Controllers
     public class UserController : ControllerBase
     {
         private readonly IMapService _mapService;
-        private readonly IUsersRepository _usersRepository;
+        private readonly IUserService _userService;
         private readonly IAuthService _authService;
 
-        public UserController( IUsersRepository usersRepository, IMapService mapService, IAuthService authService)
+        public UserController( IUserService userRepository, IMapService mapService, IAuthService authService)
         {
             _mapService = mapService;
-            _usersRepository = usersRepository;
+            _userService = userRepository;
             _authService = authService;
         }
 
@@ -33,7 +33,7 @@ namespace Server.Controllers
             }
 
             var signUpModel = _mapService.Map(signUpModelDTO);
-            await _usersRepository.AddAsync(signUpModel);
+            await _userService.CreateUser(signUpModel);
             return Ok();
         }
 
@@ -57,7 +57,7 @@ namespace Server.Controllers
         [HttpGet("login/exists")]
         public async Task<ActionResult> Exists(string login)
         {
-            var result = await _usersRepository.ExistsLoginAsync(login);
+            var result = await _userService.UserExists(login);
             return Ok(new { Exists = result });
         }
 

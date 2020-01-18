@@ -37,9 +37,9 @@ namespace Server.Services.Authorization
             {
                 return WrongPasswordResult();
             }
-
-            var token = _tokenService.GenerateToken(signinModel.Login);
-            await _tokenService.SaveAsync(signinModel.Login, token);
+            var userId = await _usersRepository.GetUserId(signinModel.Login);
+            var token = _tokenService.GenerateToken(userId);
+            await _tokenService.SaveAsync(userId, token);
 
             return SignInSuccessResult(token);
 
@@ -57,7 +57,7 @@ namespace Server.Services.Authorization
 
         private async Task<bool> PasswordIsIncorrect(SignInModel user)
         {
-            return user.Password != await _usersRepository.GetPasswordAsync(user.Login);
+            return ! await _usersRepository.PasswordIsValid(user.Login, user.Password);
         }
 
         private AuthenticationResultModel SignInSuccessResult(string token)

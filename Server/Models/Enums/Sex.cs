@@ -7,6 +7,6 @@ namespace Server.Models.Enums
 {
     public enum Sex
     {
-        Male, Female
+        Male = 'M', Female='F'
     }
 }

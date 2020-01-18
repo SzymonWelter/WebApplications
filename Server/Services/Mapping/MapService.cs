@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Server.Models.DAL;
 using Server.Models.Domain;
 using Server.Models.DTO;
 using Server.Models.Enums;
@@ -22,7 +23,7 @@ namespace Server.Services.Mapping
                 Birthday = DateTime.Parse(userDTO.Birthday),
                 Pesel = userDTO.Pesel,
                 Sex = Enum.Parse<Sex>(userDTO.Sex, true),
-                Photo = userDTO.Photo
+                Photo = Map(new UserFileDTO { File = userDTO.Photo })
             };
             return result;
         }
@@ -56,9 +57,49 @@ namespace Server.Services.Mapping
             };
             userFileDTO.File.CopyTo(userFileModel.File);
             userFileModel.File.Seek(0, SeekOrigin.Begin);
-            userFileModel.FileName =Path.GetFileName(userFileDTO.File.FileName);
+            userFileModel.FileName = Path.GetFileName(userFileDTO.File.FileName);
             userFileModel.ContentType = userFileDTO.File.ContentType;
             return userFileModel;
+        }
+
+        public FileDAL Map(UserFileModel userFile)
+        {
+            var file = new FileDAL
+            {
+                FileName = userFile.FileName,
+                FileId = userFile.FileId,
+                ContentType = userFile.ContentType
+            };
+            return file;
+        }
+
+        public UserFileModel Map(FileDAL fileDAL)
+        {
+            var file = new UserFileModel
+            {
+                FileName = fileDAL.FileName,
+                FileId = fileDAL.FileId,
+                ContentType = fileDAL.ContentType
+            };
+            return file;
+        }
+
+        public UserDAL Map(SignUpModel signUpModel)
+        {
+            var user = new UserDAL
+            {
+                Login = signUpModel.Login,
+                Password = signUpModel.Password,
+                Person = new PersonDAL
+                {
+                FirstName = signUpModel.FirstName,
+                LastName = signUpModel.LastName,
+                Birthday = signUpModel.Birthday,
+                Pesel = signUpModel.Pesel,
+                Sex = (char) signUpModel.Sex,
+                }
+            };
+            return user;
         }
     }
 }

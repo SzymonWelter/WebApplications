@@ -14,9 +14,11 @@ services:
     links:
       - redis
       - storage
+      - database
     depends_on:
       - redis
       - storage
+      - database
 
   client:
     container_name: client
@@ -35,7 +37,6 @@ services:
     image: "redis:alpine"
     ports:
       - "6379:6379"
-
   storage:
     container_name: storage
     image: "arafato/azurite"
@@ -43,3 +44,14 @@ services:
       - "10000:10000"
       - "10001:10001"
       - "10002:10002"
+
+  database:
+    container_name: database
+    image: "mcr.microsoft.com/mssql/server:latest"
+    ports:
+      - "1434:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Devp@ssw0rd
+    expose:
+      - 1433

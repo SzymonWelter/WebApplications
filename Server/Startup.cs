@@ -10,7 +10,10 @@ using Server.Services.Contexts;
 using Server.Services.Mapping;
 using Server.Services.Repositories;
 using Microsoft.OpenApi.Models;
-
+using Server.DAO;
+using Microsoft.EntityFrameworkCore;
+using Server.Services;
+using System;
 
 namespace Server
 {
@@ -28,13 +31,18 @@ namespace Server
         {
             services.AddControllers();
 
-            services.AddSingleton<IUsersRepository, UsersRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IFilesRepository, FilesRepository>();
             services.AddSingleton<IBlobStorageService,BlobStorageService>();
 
             services.AddTransient<IMapService, MapService>();
+            services.AddTransient<IUserService,UserService>();
             services.AddTransient<IAuthService, AuthService>();
-            services.AddTransient<IConfigurationService, ConfigurationService>();
             services.AddTransient<ITokenService,TokenService>();
+            services.AddTransient<IFilesService, FilesService>();
+            services.AddTransient<IConfigurationService, ConfigurationService>();
+
+            services.AddDbContext<WebAppContext>(options => options.UseSqlServer(Configuration["Database:ConnectionString"]));
 
             services.AddStackExchangeRedisCache(options =>
             {

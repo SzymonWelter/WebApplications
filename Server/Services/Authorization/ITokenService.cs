@@ -12,8 +12,8 @@ namespace Server.Services.Authorization
         Task SaveAsync(string login, string token);
         string GenerateToken(string login);
         string GetTokenFromHeader(string header);
-        string GetLoginFromHeader(string header);
-        string GetLoginFromToken(string token);
+        string GetUserIdFromHeader(string header);
+        string GetUserIdFromToken(string token);
         Task<string> RenewToken(string header);
     }
 }

@@ -19,47 +19,51 @@ namespace Server.Services.Contexts
             _blobClient = blobStorageAccount.CreateCloudBlobClient();
         }
 
+        public async Task CreateContainer(string userId){
+            var cloudBlobContainer = _blobClient.GetContainerReference(userId);
+            if (await cloudBlobContainer.CreateIfNotExistsAsync())
+            {
+                await cloudBlobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
+            }
+        }
+
         public async Task CreateFile(UserFileModel userFile)
         {
-            var cloudBlobContainer = _blobClient.GetContainerReference(userFile.Login);
-            if (await cloudBlobContainer.CreateIfNotExistsAsync().ConfigureAwait(false))
-            {
-                await cloudBlobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob }).ConfigureAwait(false);
-            }
-            var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(userFile.FileName);
+            var cloudBlobContainer = _blobClient.GetContainerReference(userFile.UserId.ToString());
+            var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(userFile.FileId.ToString());
 
             cloudBlockBlob.Properties.ContentType = userFile.ContentType;
 
             await cloudBlockBlob.UploadFromStreamAsync(userFile.File).ConfigureAwait(false);
         }
 
-        public async Task<MemoryStream> GetFile(string login, string name)
+        public async Task<MemoryStream> GetFile(string userId, string fileId)
         {
-            var cloudBlobContainer = _blobClient.GetContainerReference(login);
-            var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(name);
+            var cloudBlobContainer = _blobClient.GetContainerReference(userId);
+            var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileId);
             var stream = new MemoryStream();
             await cloudBlockBlob.DownloadToStreamAsync(stream).ConfigureAwait(false);
             stream.Seek(0, SeekOrigin.Begin);
             return stream;
         }
 
-        public async Task<string[]> GetFilesNames(string login)
+        public async Task<string[]> GetFilesIds(string userId)
         {
-            var cloudBlobContainer = _blobClient.GetContainerReference(login);
+            var cloudBlobContainer = _blobClient.GetContainerReference(userId);
             var segment = await cloudBlobContainer.ListBlobsSegmentedAsync(null).ConfigureAwait(false);
             var list = new List<IListBlobItem>();
             list.AddRange(segment.Results);
             while (segment.ContinuationToken != null)
             {
-                segment = await _blobClient.ListBlobsSegmentedAsync(login, segment.ContinuationToken).ConfigureAwait(false);
+                segment = await _blobClient.ListBlobsSegmentedAsync(userId, segment.ContinuationToken).ConfigureAwait(false);
                 list.AddRange(segment.Results);
             }
             return list.OfType<CloudBlockBlob>().Select(b => b.Name).ToArray();
         }
 
-        public async Task RemoveFile(string login, string name)
+        public async Task RemoveFile(string userId, string name)
         {
-            var cloudBlobContainer = _blobClient.GetContainerReference(login);
+            var cloudBlobContainer = _blobClient.GetContainerReference(userId);
             var blob = cloudBlobContainer.GetBlockBlobReference(name);
             await blob.DeleteIfExistsAsync().ConfigureAwait(false);
         }

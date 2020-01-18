@@ -7,7 +7,7 @@ export function handleResponse(response) {
       location.reload(true);
     }
 
-    const error = (data && data.message) || response.statusText;
+    const error = (response.data && response.data.message) || response.statusText;
     return Promise.reject(error);
   }
   if(response.headers["Authorization"]){

@@ -12,16 +12,17 @@ export class FilesSection extends Component {
   }
 
   componentDidMount() {
-    filesService.filesNames().then(result => {
-      this.setState({ files: result });
+    filesService.getFiles().then(result => {
+      this.setState({ files: result.files });
     });
   }
 
   download = async event => {
+    const id = event.target.id;
     const name = event.target.name;
     this.setState({ loading: true });
 
-    const blob = await filesService.download(name);
+    const blob = await filesService.download(id);
     const url = window.URL.createObjectURL(new Blob([blob]));
 
     const link = document.createElement("a");
@@ -35,9 +36,9 @@ export class FilesSection extends Component {
   };
 
   remove = async event => {
-    const name = event.target.name;
+    const id = event.target.id;
     this.setState({ loading: true });
-    await filesService.remove(name);
+    await filesService.remove(id);
     this.setState({ loading: false });
     this.componentDidMount();
   };
@@ -50,7 +51,8 @@ export class FilesSection extends Component {
             {this.state.files.map((file, index) => (
               <li className="files-list__item" key={index}>
                 <FileTile
-                  name={file}
+                  name={file.fileName}
+                  id={file.fileId}
                   onClick={this.download}
                   onRemove={this.remove}
                 />

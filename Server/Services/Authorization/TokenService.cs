@@ -24,12 +24,12 @@ namespace Server.Services.Authorization
             _distributedCache = distributedCache;
         }
 
-        public string GetLoginFromHeader(string header)
+        public string GetUserIdFromHeader(string header)
         {
             try
             {
                 string token = GetTokenFromHeader(header);
-                return GetLoginFromToken(token);
+                return GetUserIdFromToken(token);
             }
             catch
             {
@@ -42,10 +42,10 @@ namespace Server.Services.Authorization
             return header.Split(" ") [1];
         }
 
-        public async Task SaveAsync(string login, string token)
+        public async Task SaveAsync(string userId, string token)
         {
             await _distributedCache.SetAsync(
-                login,
+                userId,
                 Encoding.UTF8.GetBytes(token),
                 new DistributedCacheEntryOptions
                 {
@@ -53,7 +53,7 @@ namespace Server.Services.Authorization
                 });
         }
 
-        public string GenerateToken(string login)
+        public string GenerateToken(string userId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configurationService.GetSecret());
@@ -61,7 +61,7 @@ namespace Server.Services.Authorization
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                new Claim(ClaimTypes.Name, login),
+                new Claim(ClaimTypes.Name, userId),
                 }),
                 Expires = _configurationService.GetTokenExpiration(),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
@@ -72,24 +72,24 @@ namespace Server.Services.Authorization
 
         public async Task<string> RenewToken(string header)
         {
-            var login = GetLoginFromHeader(header);
-            var token = GenerateToken(login);
-            await SaveAsync(login, token);
+            var userId = GetUserIdFromHeader(header);
+            var token = GenerateToken(userId);
+            await SaveAsync(userId, token);
             return token;
         }
 
         public async Task RemoveAsync(string token)
         {
-            var login = GetLoginFromHeader(token);
-            await _distributedCache.RemoveAsync(login);
+            var userId = GetUserIdFromHeader(token);
+            await _distributedCache.RemoveAsync(userId);
         }
 
-        public string GetLoginFromToken(string token)
+        public string GetUserIdFromToken(string token)
         {
             var handler = new JwtSecurityTokenHandler();
             var decodedToken = handler.ReadToken(token) as JwtSecurityToken;
-            var login = decodedToken.Claims.First(claim => claim.Type == "unique_name").Value;
-            return login;
+            var userId = decodedToken.Claims.First(claim => claim.Type == "unique_name").Value;
+            return userId;
         }
     }
 }
