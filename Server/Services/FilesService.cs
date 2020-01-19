@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Server.Models.Domain;
+using Server.Models.DTO;
 using Server.Services.Contexts;
 using Server.Services.Mapping;
 using Server.Services.Repositories;
@@ -23,7 +24,9 @@ namespace Server.Services
         }
         public async Task CreateFile(UserFileModel userFile)
         {
+            userFile.FileId = Guid.NewGuid();
             await _blobStorageService.CreateFile(userFile);
+            await _filesRepository.CreateFile(userFile);
         }
 
         public async Task<UserFileModel> GetFile(string userId, string fileId)
@@ -37,8 +40,7 @@ namespace Server.Services
 
         public async Task<IEnumerable<UserFileModel>> GetFiles(string userId)
         {
-            var filesIds = await _blobStorageService.GetFilesIds(userId);
-            return await _filesRepository.GetFiles(filesIds);
+            return await _filesRepository.GetFiles(new Guid(userId));
         }
 
         public async Task RemoveFile(string userId, string name)

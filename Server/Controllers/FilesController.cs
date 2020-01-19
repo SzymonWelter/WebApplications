@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -37,8 +38,8 @@ namespace Server.Controllers
         public async Task<ActionResult> UploadFile([FromForm] UserFileDTO userFileDTO)
         {
             var userFile = _mapService.Map(userFileDTO);
-            var login = _tokenService.GetUserIdFromHeader(Request.Headers["Authorization"].ToString());
-
+            var userId = _tokenService.GetUserIdFromHeader(Request.Headers["Authorization"].ToString());
+            userFile.UserId = new Guid(userId);
             await _filesService.CreateFile(userFile);
 
             return Ok();

@@ -13,6 +13,7 @@ export const authenticationService = {
   login,
   logout,
   fbSignUp,
+  fbSignIn,
   renewToken,
   currentUser: currentUserSubject.asObservable(),
   get currentUserValue() {
@@ -32,6 +33,29 @@ function login(login, password) {
 
   return fetch(`${config.apiUrl}/user/authenticate`, requestOptions)
     .then(handleResponse)
+    .then(result => result.json())
+    .then(result => {
+      if (!result.isSuccess) {
+        throw new Error(result.message);
+      }
+      const expirationDate = getExpirationDate(5);
+      cookieService.setCookie(
+        "currentUser",
+        result.token,
+        expirationDate
+      );
+      currentUserSubject.next(result.token);
+      return result;
+    });
+}
+
+function fbSignIn(fbResponse){
+  
+  const data = new FormData();
+  data.append("email", fbResponse.email);
+  data.append("accessToken", fbResponse.accessToken);
+
+  return requestService.post(`${config.apiUrl}/user/authenticate/facebook`,data)
     .then(result => result.json())
     .then(result => {
       if (!result.isSuccess) {

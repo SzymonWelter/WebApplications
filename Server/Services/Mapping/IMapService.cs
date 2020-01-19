@@ -16,5 +16,6 @@ namespace Server.Services.Mapping {
         UserDAL Map (SignUpModel signUpModel);
         FileDAL Map (UserFileModel userFile);
         UserFileModel Map (FileDAL fileDAL);
+        SignInModel Map(FbSignInModelDTO fbSignInModelDTO);
     }
 }

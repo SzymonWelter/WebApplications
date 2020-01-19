@@ -8,8 +8,9 @@ namespace Server.Services.Repositories
 {
     public interface IFilesRepository
     {
-        Task<IEnumerable<UserFileModel>> GetFiles(IEnumerable<string> filesIds);
-        Task<string> GetFileName(Guid fileId);
+        Task<IEnumerable<UserFileModel>> GetFiles(Guid userId);
         Task<FileDAL> GetFile(Guid fileId);
+
+        Task CreateFile(UserFileModel userFileModel);
     }
 }

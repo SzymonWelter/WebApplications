@@ -32,7 +32,7 @@ export class SignIn extends Component {
     const login = event.target.login.value;
     const password = event.target.password.value;
     authenticationService.login(login, password).then(
-      result => {
+      _ => {
         const { from } = this.props.location.state || {
           from: { pathname: "/" }
         };
@@ -76,7 +76,18 @@ export class SignIn extends Component {
   };
 
   responseFacebook = response => {
-    console.log(response);
+    authenticationService.fbSignIn(response).then(
+      _ => {
+        const { from } = this.props.location.state || {
+          from: { pathname: "/" }
+        };
+        this.reset();
+        this.props.history.push(from);
+      },
+      error => {
+        this.setState({ error: error.message });
+      }
+    );
   };
 
   render() {
