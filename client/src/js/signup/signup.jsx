@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Modal } from "./modal";
 import config from "config";
+import { Modal } from "./modal";
+import { Link } from "react-router-dom";
+import React, { Component } from "react";
+import FacebookLogin from "react-facebook-login";
 import {
-  InputModel,
   RadioInput,
   TextInput,
   DateInput,
@@ -11,6 +11,7 @@ import {
   ButtonInput,
   SignUpInputs
 } from "src/js/inputs";
+import { authenticationService } from "src/js/services";
 
 export class SignUp extends Component {
   constructor() {
@@ -309,6 +310,12 @@ export class SignUp extends Component {
     });
   };
 
+  responseFacebook = response => {
+    authenticationService.fbSignUp(response).then(_ => {
+      this.props.history.push("/signin");
+    });
+  };
+
   render() {
     return (
       <section className="sign-up-section">
@@ -316,6 +323,19 @@ export class SignUp extends Component {
           <form className="sign-up-form" onSubmit={this.onSubmit}>
             <header className="sign-up-form__header">Sign up</header>
             <div className="container">
+              <div className="row">
+                <div className="col">
+                  <div className="center-child">
+                    <FacebookLogin
+                      appId={config.appId}
+                      fields="name,email,picture"
+                      callback={this.responseFacebook}
+                      textButton="Register with facebook"
+                      cssClass="fb-button"
+                    />
+                  </div>
+                </div>
+              </div>
               <div className="row">
                 <div className="col col-12 col-lg-6">
                   <TextInput

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Server.Models.Domain;
 using Server.Models.DTO;
 using Server.Services;
 using Server.Services.Authorization;
@@ -33,6 +34,25 @@ namespace Server.Controllers
             }
 
             var signUpModel = _mapService.Map(signUpModelDTO);
+            await _userService.CreateUser(signUpModel);
+            return Ok();
+        }
+
+        [HttpPost("signup/facebook")]
+        public async Task<ActionResult> FbSignUp([FromForm] FbSignUpModelDTO signUpModelDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var signUpModel = _mapService.Map(signUpModelDTO);
+            var fileModel = new UserFileModel{
+                FileName = $"{signUpModel.FirstName}-{signUpModel.LastName}.jpg",
+                ContentType="image/jpeg"
+            };
+            fileModel.File = await _userService.GetFbPhoto(signUpModelDTO.PhotoUrl);
+            signUpModel.Photo = fileModel;
             await _userService.CreateUser(signUpModel);
             return Ok();
         }

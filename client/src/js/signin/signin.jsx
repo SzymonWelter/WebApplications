@@ -3,6 +3,8 @@ import { TextInput, ButtonInput, SignInInputs } from "src/js/inputs";
 import { Error } from "./";
 import { Link } from "react-router-dom";
 import { authenticationService } from "src/js/services";
+import config from "config";
+import FacebookLogin from "react-facebook-login";
 
 export class SignIn extends Component {
   constructor(props) {
@@ -21,7 +23,8 @@ export class SignIn extends Component {
     loading: false,
     isValid: true,
     error: "",
-    models: SignInInputs()
+    models: SignInInputs(),
+    externalSigningIn: false
   });
 
   async onSubmit(event) {
@@ -72,6 +75,10 @@ export class SignIn extends Component {
     }));
   };
 
+  responseFacebook = response => {
+    console.log(response);
+  };
+
   render() {
     return (
       <section className="signin-section">
@@ -83,6 +90,18 @@ export class SignIn extends Component {
           >
             <header className="signin-form__header">Sign in</header>
             <div className="container">
+              <div className="row">
+                <div className="col">
+                  <div className="center-child">
+                    <FacebookLogin
+                      appId={config.appId}
+                      fields="name,email,picture"
+                      callback={this.responseFacebook}
+                      cssClass="fb-button"
+                    />
+                  </div>
+                </div>
+              </div>
               <div className="row">
                 <div className="col">
                   <TextInput

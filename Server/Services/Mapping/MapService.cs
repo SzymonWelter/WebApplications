@@ -27,6 +27,18 @@ namespace Server.Services.Mapping
             };
             return result;
         }
+        public SignUpModel Map(FbSignUpModelDTO userDTO)
+        {
+            var result = new SignUpModel
+            {
+                FirstName = userDTO.FirstName,
+                LastName = userDTO.LastName,
+                Login = userDTO.Email,
+                Sex = Enum.Parse<Sex>(userDTO.Sex, true),
+                Password = userDTO.AccessToken
+            };
+            return result;
+        }
 
         public SignInModel Map(SignInModelDTO signInModel)
         {

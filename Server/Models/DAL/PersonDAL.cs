@@ -10,7 +10,7 @@ namespace Server.Models.DAL
         public Guid PersonId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
         public string Pesel { get; set; }
         public Guid PhotoId { get; set; }
         public FileDAL Photo { get; set; }
